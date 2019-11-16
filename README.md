@@ -54,10 +54,12 @@ A simplified mock up
 
 ![current poker game](this-and-that/img/PokerLeagueGames.png)
 
-There is so much more to a game than what is depicted in the mockup. For example
-* add a known player
-* add a new player
-* update a player
-* delete a player
-* edit the clock time
-* finalize a game
+There is so much more to a game than what is depicted in the mockup but
+it is a good place to start (and then iterate on what is missing).
+
+#### Presentation (react) components
+* Details
+* Clock
+* Players
+* Seating
+
