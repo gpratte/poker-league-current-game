@@ -43,3 +43,21 @@ Push to master
 * _git checkout master_
 * _git merge step-01-create-development-environment_
 * _git push origin master_
+
+## step 02 screen layout
+* _git checkout -b step-02-screen-layout_
+
+The current game is the heart of the poker league application. 
+It is fashioned after what you would see if playing in a tournment in a casino.
+
+A simplified mock up 
+
+![current poker game](this-and-that/img/PokerLeagueGames.png)
+
+There is so much more to a game than what is depicted in the mockup. For example
+* add a known player
+* add a new player
+* update a player
+* delete a player
+* edit the clock time
+* finalize a game
