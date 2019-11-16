@@ -24,7 +24,7 @@ Hooked up react-redux-tutorial with the github repository
 * _git add ._
 * _git commit -m "initial commit"_
 * _git remote add origin https://github.com/gpratte/poker-league-current-game.git_
-* _git push origin master_
+* _git push origin poker-league-current-game_
 
 Make sure the initial react application works. Run
 * _npm start_
@@ -37,4 +37,7 @@ From the redux tutorial "Usage with React" https://redux.js.org/basics/usage-wit
 Push changes
 * _git add ._
 * _git commit -m "added react-redux npm package"_
+* _git push origin poker-league-current-game_
+
+Push to master
 * _git push origin master_
