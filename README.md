@@ -40,4 +40,6 @@ Push changes
 * _git push origin poker-league-current-game_
 
 Push to master
+* _git checkout master_
+* _git merge step-01-create-development-environment_
 * _git push origin master_
