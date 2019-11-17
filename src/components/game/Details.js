@@ -31,7 +31,7 @@ class Details extends React.Component {
     return (
       <div>
         <p><span>Date: {gameDate} | Host: {hostName} | Transport Supplies Required: <a href={"https://example.com"}>{transportRequired ? "Yes" : "No"}</a></span></p>
-        <p><span>Money Collected: ${totalCollected} &nbsp;&nbsp;TOC+QTOC+Kitty: ${tocPlusKitty} &nbsp;&nbsp;POT: ${prizePotCalculated}</span></p>
+        <p><span>Money Collected: ${totalCollected} | TOC+QTOC+Kitty: ${tocPlusKitty} | POT: ${prizePotCalculated}</span></p>
         <div style={this.divStyle}>
           <table>
             <tr>

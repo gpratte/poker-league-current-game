@@ -6,8 +6,11 @@ The following shows what I did step by step.
 
 Each step can be found on the cooresponding branch.
 
+## step 04 current game players
+Started fleshing out the react Players component for the current game.
+
 ## step 03 details component
-Started fleshing out the react Details component.
+Started fleshing out the react Details component for the current game.
 
 Had to code the component as a class
 ```
