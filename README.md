@@ -6,6 +6,51 @@ The following shows what I did step by step.
 
 Each step can be found on the cooresponding branch.
 
+## step 03 details component
+Started fleshing out the react Details component.
+
+Had to code the component as a class
+```
+class Details extends React.Component {
+```
+instead of a functional component
+``` 
+const Details = () => (
+```
+I will have to ask my react savvy coworkers how to move from
+a class to a function.
+
+Drove data to the Details component from the App component to see it render.
+
+Temporarily using some inline styles. Will move to css file(s) near the end of the project.
+
+The date of the game is in milliseconds at UTC-0. Installed moment timezone
+* npm install moment-timezone --save 
+
+to convert the date to text in central time.
+
+## step 02 screen layout
+**Note:** Leaving out the git step from this step on.
+
+The current game is the heart of the poker league application. 
+It is fashioned after what you would see if playing in a tournment in a casino.
+
+A simplified mock up 
+
+![current poker game](this-and-that/img/PokerLeagueGames.png)
+
+There is so much more to a game than what is depicted in the mockup but
+it is a good place to start (and then iterate on).
+
+#### Presentation (react) components
+* Details
+* Clock
+* Players
+* Seating
+
+Created the react components for the four bulleted items above.
+Changed the main App to include the new react components.
+
 ## step 01 create development environment
 To get started did the following.
 
@@ -43,26 +88,3 @@ Push to master
 * _git checkout master_
 * _git merge step-01-create-development-environment_
 * _git push origin master_
-
-## step 02 screen layout
-**Note:** Leaving out the git step from this step on.
-
-The current game is the heart of the poker league application. 
-It is fashioned after what you would see if playing in a tournment in a casino.
-
-A simplified mock up 
-
-![current poker game](this-and-that/img/PokerLeagueGames.png)
-
-There is so much more to a game than what is depicted in the mockup but
-it is a good place to start (and then iterate on).
-
-#### Presentation (react) components
-* Details
-* Clock
-* Players
-* Seating
-
-Created the react components for the four bulleted items above.
-Changed the main App to include the new react components.
- 
