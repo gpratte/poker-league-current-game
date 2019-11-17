@@ -55,7 +55,7 @@ it is a good place to start (and then iterate on).
 * Players
 * Seating
 
-Created the react components for the four bulleted items above.
+Created the skelton for the react components for the four bulleted items above.
 Changed the main App to include the new react components.
 
 ## step 01 create development environment
