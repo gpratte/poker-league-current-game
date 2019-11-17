@@ -37,7 +37,7 @@ The date of the game is in milliseconds at UTC-0. Installed moment timezone
 to convert the date to text in central time.
 
 ## step 02 screen layout
-**Note:** Leaving out the git step from this step on.
+**Note:** Leaving out the git commands from this step on.
 
 The current game is the heart of the poker league application. 
 It is fashioned after what you would see if playing in a tournment in a casino.
