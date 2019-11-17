@@ -1,6 +1,10 @@
 # poker-league-current-game (react/redux)
 
-I've worked through the Redux Basic Tutorial (https://redux.js.org/basics/basic-tutorial).
+I am rewriting my poker league application from core Spring 3.x and JQuery mobile to Spring Boot and React/Redux.
+
+This is the beginning of writing a new front end using React and Redux.
+
+I've begun with the heart of the poker league application - the game in progress.
 
 The following shows what I did step by step.
 
