@@ -45,7 +45,7 @@ Push to master
 * _git push origin master_
 
 ## step 02 screen layout
-* _git checkout -b step-02-screen-layout_
+**Note:** Leaving out the git step from this step on.
 
 The current game is the heart of the poker league application. 
 It is fashioned after what you would see if playing in a tournment in a casino.
