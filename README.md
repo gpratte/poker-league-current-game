@@ -55,7 +55,7 @@ A simplified mock up
 ![current poker game](this-and-that/img/PokerLeagueGames.png)
 
 There is so much more to a game than what is depicted in the mockup but
-it is a good place to start (and then iterate on what is missing).
+it is a good place to start (and then iterate on).
 
 #### Presentation (react) components
 * Details
