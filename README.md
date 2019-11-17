@@ -63,3 +63,6 @@ it is a good place to start (and then iterate on).
 * Players
 * Seating
 
+Created the react components for the four bulleted items above.
+Changed the main App to include the new react components.
+ 
