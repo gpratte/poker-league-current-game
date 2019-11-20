@@ -1,4 +1,4 @@
-# poker-league-current-game (react/redux)
+# poker-league-current-game (react/redux) 
 
 I am rewriting my poker league application from core Spring 3.x and JQuery mobile to Spring Boot and React/Redux.
 
