@@ -9,7 +9,7 @@ class CurrentGame extends React.Component {
     return (
       <div>
         <div><Details value={this.props.value}/></div>
-        <div><Clock/></div>
+        <div><Clock value={this.props.value}/></div>
         <div><Players value={this.props.value}/></div>
         <div><Seating value={this.props.value}/></div>
       </div>

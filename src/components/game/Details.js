@@ -30,6 +30,7 @@ class Details extends React.Component {
 
     return (
       <div>
+        <h1>Details</h1>
         <p><span>Date: {gameDate} | Host: {hostName} | Transport Supplies Required: <a href={"https://example.com"}>{transportRequired ? "Yes" : "No"}</a></span></p>
         <p><span>Money Collected: ${totalCollected} | TOC+QTOC+Kitty: ${tocPlusKitty} | POT: ${prizePotCalculated}</span></p>
         <div style={this.divStyle}>
@@ -41,6 +42,7 @@ class Details extends React.Component {
             {this.renderPayouts(payouts)}
           </table>
         </div>
+        <hr/>
       </div>
     );
   }
