@@ -6,11 +6,11 @@ import Seating from './Seating'
 
 class CurrentGame extends React.Component {
   render() {
-    const {game, seating} = this.props.value;
+    const {game, seating, clock} = this.props.value;
     return (
       <div>
         <div><Details value={game}/></div>
-        <div><Clock value={game}/></div>
+        <div><Clock value={clock}/></div>
         <div><Players value={game}/></div>
         <div><Seating value={seating}/></div>
       </div>

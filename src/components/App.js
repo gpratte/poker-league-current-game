@@ -148,10 +148,31 @@ class App extends React.Component {
     ]
   }
 
+  clock = {
+    clockId: 1,
+    minutes: 18,
+    seconds: 23,
+    playing: true,
+    thisRound: {
+      round: 'Round 4',
+      smallBlind: 100,
+      bigBlind: 200,
+      ante: 0
+    },
+    nextRound: {
+      round: 'Round 5',
+      smallBlind: 100,
+      bigBlind: 200,
+      ante: 100
+    }
+}
+
   render() {
     return (
       <div className="App">
-        <CurrentGame value={{game: this.game, seating: this.seating}}/>
+        <CurrentGame value={{game: this.game,
+          seating: this.seating,
+          clock: this.clock}}/>
       </div>
     );
   }

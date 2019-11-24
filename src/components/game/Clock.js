@@ -8,14 +8,15 @@ class Clock extends React.Component {
   };
 
   render() {
+    const {minutes, seconds, playing, thisRound, nextRound} = this.props.value;
     return (
       <div>
         <div style={this.divStyle}>
           <table>
             <tr>
-              <th>Round 1</th>
-              <th>20:00</th>
-              <th>25/50/0</th>
+              <th>{thisRound.round}</th>
+              <th>{thisRound.minutes}</th>
+              <th>{thisRound.smallBlind}/{thisRound.bigBlind}/{thisRound.ante}</th>
             </tr>
             <tr>
               <td></td>
@@ -25,9 +26,9 @@ class Clock extends React.Component {
               <td></td>
             </tr>
             <tr>
-              <td>Round 2</td>
-              <td></td>
-              <td>50/100/0</td>
+              <td>{nextRound.round}</td>
+              <td>{nextRound.minutes}</td>
+              <td>{nextRound.smallBlind}/{nextRound.bigBlind}/{nextRound.ante}</td>
             </tr>
           </table>
         </div>
