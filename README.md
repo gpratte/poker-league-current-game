@@ -13,6 +13,8 @@ Each step can be found on the cooresponding branch.
 ## step 05 clock and seating
 Started fleshing out the react Clock and Seating components for the current game.
 
+Now passing the properties to the Clock and Seating and displaying.
+
 ## step 04 current game players
 Started fleshing out the react Players component for the current game.
 
