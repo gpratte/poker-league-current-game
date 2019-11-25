@@ -1,7 +1,41 @@
 import React from 'react'
 
-const Clock = ({ game, onTransportRequiredClick }) => (
-  <h1>Clock</h1>
-)
+class Clock extends React.Component {
+
+  // Will move into css file
+  divStyle = {
+    display: "inline-block"
+  };
+
+  render() {
+    const {minutes, seconds, playing, thisRound, nextRound} = this.props.value;
+    return (
+      <div>
+        <div style={this.divStyle}>
+          <table>
+            <tr>
+              <th>{thisRound.round}</th>
+              <th>{thisRound.minutes}</th>
+              <th>{thisRound.smallBlind}/{thisRound.bigBlind}/{thisRound.ante}</th>
+            </tr>
+            <tr>
+              <td></td>
+              <td> <a href={"#"}>&lt;&lt;</a>
+                &nbsp;&nbsp;&nbsp;<a href={"#"}>&gt;</a>
+                &nbsp;&nbsp;&nbsp;<a href={"#"}>&gt;&gt;</a> </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>{nextRound.round}</td>
+              <td>{nextRound.minutes}</td>
+              <td>{nextRound.smallBlind}/{nextRound.bigBlind}/{nextRound.ante}</td>
+            </tr>
+          </table>
+        </div>
+        <hr/>
+      </div>
+    );
+  }
+}
 
 export default Clock

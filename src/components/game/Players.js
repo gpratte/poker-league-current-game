@@ -50,6 +50,7 @@ class Players extends React.Component {
             {this.renderPlayers(players)}
           </table>
         </div>
+        <hr/>
       </div>
     );
   }
