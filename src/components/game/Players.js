@@ -1,19 +1,18 @@
 import React from 'react'
+import Table from 'react-bootstrap/Table';
 
 class Players extends React.Component {
 
-  // Will move into css file
-  divStyle = {
-    display: "inline-block"
-  };
   knockedOutStyle = {
     color: "red"
   };
 
   renderPlayers(players) {
     return players.map((player, index) => {
-      const { id, firstName, lastName, buyInCollected, rebuyAddOnCollected, annualTocCollected,
-        quarterlyTocCollected, points, finish, knockedOut} = player;
+      const {
+        id, firstName, lastName, buyInCollected, rebuyAddOnCollected, annualTocCollected,
+        quarterlyTocCollected, points, finish, knockedOut
+      } = player;
       return (
         <tr key={id}>
           <td style={this.knockedOutStyle}>{knockedOut ? 'x' : ''}</td>
@@ -35,22 +34,19 @@ class Players extends React.Component {
     return (
       <div>
         <p><span>Players: {paidPlayersRemaining}/{paidPlayers} | Avg Stack: {averageStack}</span></p>
-        <div style={this.divStyle}>
-          <table>
-            <tr>
-              <th></th>
-              <th>Fin</th>
-              <th>Name</th>
-              <th>Buy<br/>In</th>
-              <th>Re<br/>Buy</th>
-              <th>TOC</th>
-              <th>QTOC</th>
-              <th>Pts</th>
-            </tr>
-            {this.renderPlayers(players)}
-          </table>
-        </div>
-        <hr/>
+        <Table striped bordered size="sm">
+          <tr>
+            <th></th>
+            <th>Fin</th>
+            <th>Name</th>
+            <th>Buy<br/>In</th>
+            <th>Re<br/>Buy</th>
+            <th>TOC</th>
+            <th>QTOC</th>
+            <th>Pts</th>
+          </tr>
+          {this.renderPlayers(players)}
+        </Table>
       </div>
     );
   }

@@ -1,11 +1,7 @@
 import React from 'react'
+import Table from 'react-bootstrap/Table';
 
 class Seating extends React.Component {
-
-  // Will move into css file
-  divStyle = {
-    display: "inline-block"
-  };
 
   renderSeats(seats) {
     return seats.map((seat, index) => {
@@ -56,8 +52,7 @@ class Seating extends React.Component {
     const {numTables, numSeatPerTable, seatRequests, tables} = this.props.value;
     return (
       <div>
-        <h1>Seating</h1>
-        <div style={this.divStyle}>
+        <div>
           <p>Number of Tables</p>
           <p>
             <select>
@@ -82,17 +77,17 @@ class Seating extends React.Component {
             </select>
           </p>
           <p>Request Table</p>
-          <table>
+          <Table striped bordered size="sm">
             {this.renderRequests(seatRequests)}
-          </table>
-          <table>
+          </Table>
+          <Table striped bordered size="sm">
             <tr>
               <th>Table</th>
               <th>Seat</th>
               <th>Name</th>
             </tr>
             {this.renderTables(tables)}
-          </table>
+          </Table>
           <p>
             <button>Reset Seating</button>
           </p>
