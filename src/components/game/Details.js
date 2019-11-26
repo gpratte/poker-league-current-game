@@ -33,11 +33,15 @@ class Details extends React.Component {
           <span>Money Collected: ${totalCollected} | TOC+QTOC+Kitty: ${tocPlusKitty} | POT: ${prizePotCalculated}</span>
         </p>
         <Table striped bordered size="sm">
+          <thead>
           <tr>
             <th>Place</th>
             <th>Amount</th>
           </tr>
+          </thead>
+          <tbody>
           {this.renderPayouts(payouts)}
+          </tbody>
         </Table>
         <hr/>
       </div>

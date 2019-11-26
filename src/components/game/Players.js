@@ -1,11 +1,21 @@
 import React from 'react'
+import './Players.css'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
 
 class Players extends React.Component {
 
-  knockedOutStyle = {
-    color: "red"
+  state = {show: false};
+
+  showModal = () => {
+    this.setState({show: true});
   };
+
+  hideModal = () => {
+    this.setState({show: false});
+  };
+
 
   renderPlayers(players) {
     return players.map((player, index) => {
@@ -15,7 +25,7 @@ class Players extends React.Component {
       } = player;
       return (
         <tr key={id}>
-          <td style={this.knockedOutStyle}>{knockedOut ? 'x' : ''}</td>
+          <td className="knocked-out">{knockedOut ? 'x' : ''}</td>
           <td>{finish}</td>
           <td>{firstName}{(firstName && lastName) ? <br/> : ''}{lastName}</td>
           <td>{buyInCollected ? buyInCollected : ''}</td>
@@ -35,6 +45,7 @@ class Players extends React.Component {
       <div>
         <p><span>Players: {paidPlayersRemaining}/{paidPlayers} | Avg Stack: {averageStack}</span></p>
         <Table striped bordered size="sm">
+          <thead>
           <tr>
             <th></th>
             <th>Fin</th>
@@ -45,8 +56,34 @@ class Players extends React.Component {
             <th>QTOC</th>
             <th>Pts</th>
           </tr>
-          {this.renderPlayers(players)}
+          </thead>
+          <tbody>
+            {this.renderPlayers(players)}
+          </tbody>
         </Table>
+
+        <Modal show={this.state.show} onHide={this.hideModal}>
+          <Modal.Header>
+            <Modal.Title id="example-custom-modal-styling-title">
+              Custom Modal Styling
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.hideModal}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={this.hideModal}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Button variant="primary" onClick={this.showModal}>
+          Launch demo modal
+        </Button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <Button variant="primary">Add FNG</Button>
       </div>
     );
   }

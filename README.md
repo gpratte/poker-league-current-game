@@ -20,6 +20,10 @@ https://react-bootstrap.github.io/getting-started/introduction
 
 npm install --save react-bootstrap bootstrap
 
+npm install --save lodash (to flatmap)
+
+Using modal dialog in Players
+
 ## step 05 clock and seating
 Started fleshing out the react Clock and Seating components for the current game.
 

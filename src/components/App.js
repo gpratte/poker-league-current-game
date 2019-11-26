@@ -147,6 +147,26 @@ class App extends React.Component {
             gamePlayerName: 'John Spritz'
           }
         ]
+      },
+      {
+        number: 2,
+        seats: [
+          {
+            tableNumber: 2,
+            seatNumber: 1,
+            gamePlayerName: 'Rich Molah'
+          },
+          {
+            tableNumber: 2,
+            seatNumber: 3,
+            gamePlayerName: 'Rich Dollar'
+          },
+          {
+            tableNumber: 2,
+            seatNumber: 5,
+            gamePlayerName: 'Rich Cashola'
+          }
+        ]
       }
     ]
   }

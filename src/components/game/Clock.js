@@ -13,11 +13,14 @@ class Clock extends React.Component {
       <div>
         <div style={this.divStyle}>
           <table>
+            <thead>
             <tr>
               <th>{thisRound.round}</th>
               <th>{thisRound.minutes}</th>
               <th>{thisRound.smallBlind}/{thisRound.bigBlind}/{thisRound.ante}</th>
             </tr>
+            </thead>
+            <tbody>
             <tr>
               <td></td>
               <td> <a href={"#"}>&lt;&lt;</a>
@@ -30,6 +33,7 @@ class Clock extends React.Component {
               <td>{nextRound.minutes}</td>
               <td>{nextRound.smallBlind}/{nextRound.bigBlind}/{nextRound.ante}</td>
             </tr>
+            </tbody>
           </table>
         </div>
         <hr/>
