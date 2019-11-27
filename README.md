@@ -10,6 +10,22 @@ The following shows what I did step by step.
 
 Each step can be found on the cooresponding branch.
 
+## step 06 bootstrap
+Oh yeah, it's nice to add Bootstrap to the app for two reasons:
+1. It looks nice. Nice buttons, tables, rows and columns, ...
+2. Functionality - accordions, modal dialogs, ... 
+
+React Bootstrap can be found at https://react-bootstrap.github.io/
+
+I followed the Get Started at https://react-bootstrap.github.io/getting-started/introduction.
+Began by installing react bootstrap
+* npm install --save react-bootstrap bootstrap
+
+Needed to create a flatmap so installed lodash.
+* npm install --save lodash (to flatmap)
+
+Check out the modal dialogs for adding and updating players, nice :)
+
 ## step 05 clock and seating
 Started fleshing out the react Clock and Seating components for the current game.
 

@@ -1,4 +1,8 @@
 import React from 'react'
+import Accordion from 'react-bootstrap/Accordion';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+
 import Details from './Details'
 import Clock from './Clock'
 import Players from './Players'
@@ -9,10 +13,36 @@ class CurrentGame extends React.Component {
     const {game, seating, clock} = this.props.value;
     return (
       <div>
-        <div><Details value={game}/></div>
+        <Accordion>
+          <Card>
+            <Card.Header>
+              <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                Details
+              </Accordion.Toggle>
+            </Card.Header>
+            <Accordion.Collapse eventKey="0">
+              <Card.Body><Details value={game}/></Card.Body>
+            </Accordion.Collapse>
+          </Card>
+        </Accordion>
+
         <div><Clock value={clock}/></div>
+
         <div><Players value={game}/></div>
-        <div><Seating value={seating}/></div>
+
+        <Accordion>
+          <Card>
+            <Card.Header>
+              <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                Seating
+              </Accordion.Toggle>
+            </Card.Header>
+            <Accordion.Collapse eventKey="1">
+              <Card.Body><Seating value={seating}/></Card.Body>
+            </Accordion.Collapse>
+          </Card>
+        </Accordion>
+
       </div>
     );
   }

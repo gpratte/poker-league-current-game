@@ -1,5 +1,8 @@
 import React from 'react';
 import './App.css';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import CurrentGame from './game/CurrentGame'
 
 class App extends React.Component {
@@ -144,6 +147,26 @@ class App extends React.Component {
             gamePlayerName: 'John Spritz'
           }
         ]
+      },
+      {
+        number: 2,
+        seats: [
+          {
+            tableNumber: 2,
+            seatNumber: 1,
+            gamePlayerName: 'Rich Molah'
+          },
+          {
+            tableNumber: 2,
+            seatNumber: 3,
+            gamePlayerName: 'Rich Dollar'
+          },
+          {
+            tableNumber: 2,
+            seatNumber: 5,
+            gamePlayerName: 'Rich Cashola'
+          }
+        ]
       }
     ]
   }
@@ -169,11 +192,15 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <CurrentGame value={{game: this.game,
-          seating: this.seating,
-          clock: this.clock}}/>
-      </div>
+      <Container>
+        <Row className="justify-content-center text-center">
+          <Col>
+            <CurrentGame value={{game: this.game,
+              seating: this.seating,
+              clock: this.clock}}/>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

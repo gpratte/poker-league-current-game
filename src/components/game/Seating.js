@@ -1,29 +1,22 @@
 import React from 'react'
+import { flatMap, map } from 'lodash';
+import Table from 'react-bootstrap/Table';
 
 class Seating extends React.Component {
 
-  // Will move into css file
-  divStyle = {
-    display: "inline-block"
-  };
-
-  renderSeats(seats) {
+  renderTables(tables) {
+    const seats = flatMap(tables, ({ seats }) =>
+      map(seats, seat => ({ ...seat }))
+    );
     return seats.map((seat, index) => {
-      const { id, seatNumber, tableNumber, gamePlayerName} = seat;
+      const { seatNumber, tableNumber, gamePlayerName} = seat;
       return (
-        <tr key={id}>
+        <tr key={index}>
           <td>{tableNumber}</td>
           <td>{seatNumber}</td>
           <td>{gamePlayerName}</td>
         </tr>
       )
-    })
-  }
-
-  renderTables(tables) {
-    return tables.map((table, index) => {
-      const { seats } = table;
-      return this.renderSeats(seats);
     })
   }
 
@@ -33,18 +26,18 @@ class Seating extends React.Component {
       return (
         <tr key={id}>
           <td>
-            <select>
-              <option selected={11 === playerId}>Jane Penn</option>
-              <option selected={12 === playerId}>Casey Template</option>
+            <select defaultValue={playerId}>
+              <option value="11">Jane Penn</option>
+              <option value="12">Casey Template</option>
             </select>
           </td>
           <td>
-            <select>
-              <option selected={1 === tableNum}>1</option>
-              <option selected={2 === tableNum}>2</option>
-              <option selected={3 === tableNum}>3</option>
-              <option selected={4 === tableNum}>4</option>
-              <option selected={5 === tableNum}>5</option>
+            <select defaultValue={tableNum}>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
             </select>
           </td>
         </tr>
@@ -56,43 +49,48 @@ class Seating extends React.Component {
     const {numTables, numSeatPerTable, seatRequests, tables} = this.props.value;
     return (
       <div>
-        <h1>Seating</h1>
-        <div style={this.divStyle}>
+        <div>
           <p>Number of Tables</p>
           <p>
-            <select>
-              <option selected={1 === numTables}>1</option>
-              <option selected={2 === numTables}>2</option>
-              <option selected={3 === numTables}>3</option>
-              <option selected={4 === numTables}>4</option>
-              <option selected={5 === numTables}>5</option>
+            <select defaultValue={numTables}>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
             </select>
           </p>
           <p>Seats per Table</p>
           <p>
-            <select>
-              <option selected={3 === numSeatPerTable}>3</option>
-              <option selected={4 === numSeatPerTable}>4</option>
-              <option selected={5 === numSeatPerTable}>5</option>
-              <option selected={6 === numSeatPerTable}>6</option>
-              <option selected={7 === numSeatPerTable}>7</option>
-              <option selected={8 === numSeatPerTable}>8</option>
-              <option selected={9 === numSeatPerTable}>9</option>
-              <option selected={10 === numSeatPerTable}>10</option>
+            <select defaultValue={numSeatPerTable}>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
             </select>
           </p>
           <p>Request Table</p>
-          <table>
+          <Table striped bordered size="sm">
+            <tbody>
             {this.renderRequests(seatRequests)}
-          </table>
-          <table>
+            </tbody>
+          </Table>
+          <Table striped bordered size="sm">
+            <thead>
             <tr>
               <th>Table</th>
               <th>Seat</th>
               <th>Name</th>
             </tr>
+            </thead>
+            <tbody>
             {this.renderTables(tables)}
-          </table>
+            </tbody>
+          </Table>
           <p>
             <button>Reset Seating</button>
           </p>
