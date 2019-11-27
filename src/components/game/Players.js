@@ -7,22 +7,35 @@ import Table from 'react-bootstrap/Table';
 
 class Players extends React.Component {
 
-  state = {showAddPlayer: false, showAddNewPlayer: false};
+  state = {showAddPlayer: false,
+    showAddNewPlayer: false,
+    showEditPlayer: false,
+    player: {
+      id: 24,
+      playerId: 15,
+      firstName: 'Josh',
+      lastName: 'Bygosh',
+      buyInCollected: 40,
+      rebuyAddOnCollected: null,
+      annualTocCollected: 20,
+      quarterlyTocCollected: null,
+      chop: null
+    },
 
-  showAddPlayerModal = () => {
-    this.setState({showAddPlayer: true, showAddNewPlayer: false});
-  };
-  hideAddPlayerModal = () => {
-    this.setState({showAddPlayer: false, showAddNewPlayer: false});
   };
 
-  showAddNewPlayerModal = () => {
-    this.setState({showAddPlayer: false, showAddNewPlayer: true});
-  };
-  hideAddNewPlayerModal = () => {
-    this.setState({showAddPlayer: false, showAddNewPlayer: false});
+  toggleModal = (name, value) => {
+    const newState = {...this.state};
+    newState[name] = value;
+    this.setState(newState);
   };
 
+  editPlayer = (id) => {
+    const newState = {...this.state};
+    // TODO find player in list of players and set the state.player
+    newState.showEditPlayer = true;
+    this.setState(newState);
+  };
 
   renderPlayers(players) {
     return players.map((player, index) => {
@@ -34,9 +47,13 @@ class Players extends React.Component {
         <tr key={id}>
           <td className="knocked-out">{knockedOut ? 'x' : ''}</td>
           <td>{finish}</td>
-          <td>{firstName}{(firstName && lastName) ? <br/> : ''}{lastName}</td>
-          <td>{buyInCollected ? buyInCollected : ''}</td>
-          <td>{rebuyAddOnCollected ? rebuyAddOnCollected : ''}</td>
+          <td>
+            <Button variant="link" onClick={() => this.editPlayer(id)}>
+              {firstName}{(firstName && lastName) ? ' ' : ''}{lastName}
+            </Button>
+          </td>
+          <td>{buyInCollected ? String.fromCharCode(10004) : ''}</td>
+          <td>{rebuyAddOnCollected ? String.fromCharCode(10004) : ''}</td>
           <td>{annualTocCollected ? String.fromCharCode(10004) : ''}</td>
           <td>{quarterlyTocCollected ? String.fromCharCode(10004) : ''}</td>
           <td>{points ? points : ''}</td>
@@ -69,7 +86,7 @@ class Players extends React.Component {
           </tbody>
         </Table>
 
-        <Modal show={this.state.showAddPlayer} onHide={this.hideAddPlayerModal}>
+        <Modal show={this.state.showAddPlayer} onHide={() => this.toggleModal('showAddPlayer', false)}>
           <Modal.Body>
             <Form>
               <Form.Group controlId="addPlayerId">
@@ -98,16 +115,16 @@ class Players extends React.Component {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={this.hideAddPlayerModal}>
+            <Button variant="secondary" onClick={() => this.toggleModal('showAddPlayer', false)}>
               Cancel
             </Button>
-            <Button variant="primary" onClick={this.hideAddPlayerModal}>
+            <Button variant="primary" onClick={() => this.toggleModal('showAddPlayer', false)}>
               Add Player
             </Button>
           </Modal.Footer>
         </Modal>
 
-        <Modal show={this.state.showAddNewPlayer} onHide={this.hideAddNewPlayerModal}>
+        <Modal show={this.state.showAddNewPlayer} onHide={() => this.toggleModal('showAddNewPlayer', false)}>
           <Modal.Body>
             <Form>
               <Form.Group controlId="nameId">
@@ -140,20 +157,61 @@ class Players extends React.Component {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={this.hideAddNewPlayerModal}>
+            <Button variant="secondary" onClick={() => this.toggleModal('showAddNewPlayer', false)}>
               Cancel
             </Button>
-            <Button variant="primary" onClick={this.hideAddNewPlayerModal}>
+            <Button variant="primary" onClick={() => this.toggleModal('showAddNewPlayer', false)}>
               Add New Player
             </Button>
           </Modal.Footer>
         </Modal>
 
-        <Button variant="primary" onClick={this.showAddPlayerModal}>
+        <Modal show={this.state.showEditPlayer} onHide={() => this.toggleModal('showEditPlayer', false)}>
+          <Modal.Body>
+            {this.state.player.firstName}
+            <Form>
+              <Form.Check inline
+                          type={'checkbox'}
+                          id={'buyInId'}
+                          label={'Buy-In'}
+                          checked={this.state.player.buyInCollected ? true : false}
+              />
+              <Form.Check inline
+                          type={'checkbox'}
+                          id={'rebuyId'}
+                          label={'Rebuy'}
+                          checked={this.state.player.rebuyAddOnCollected ? true : false}
+              />
+              <Form.Check inline
+                          type={'checkbox'}
+                          id={'tocId'}
+                          label={'Annual TOC'}
+                          checked={this.state.player.annualTocCollected ? true : false}
+              />
+              <Form.Check inline
+                          type={'checkbox'}
+                          id={'qtocId'}
+                          label={'Quarterly TOC'}
+                          checked={this.state.player.quarterlyTocCollected ? true : false}
+              />
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => this.toggleModal('showEditPlayer', false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={() => this.toggleModal('showEditPlayer', false)}>
+              Update
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+
+        <Button variant="primary" onClick={() => this.toggleModal('showAddPlayer', true)}>
           Add Player
         </Button>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <Button variant="primary" onClick={this.showAddNewPlayerModal}>
+        <Button variant="primary" onClick={() => this.toggleModal('showAddNewPlayer', true)}>
           Add New Player
         </Button>
       </div>
