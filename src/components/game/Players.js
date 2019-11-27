@@ -1,19 +1,26 @@
 import React from 'react'
 import './Players.css'
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
 
 class Players extends React.Component {
 
-  state = {show: false};
+  state = {showAddPlayer: false, showAddNewPlayer: false};
 
-  showModal = () => {
-    this.setState({show: true});
+  showAddPlayerModal = () => {
+    this.setState({showAddPlayer: true, showAddNewPlayer: false});
+  };
+  hideAddPlayerModal = () => {
+    this.setState({showAddPlayer: false, showAddNewPlayer: false});
   };
 
-  hideModal = () => {
-    this.setState({show: false});
+  showAddNewPlayerModal = () => {
+    this.setState({showAddPlayer: false, showAddNewPlayer: true});
+  };
+  hideAddNewPlayerModal = () => {
+    this.setState({showAddPlayer: false, showAddNewPlayer: false});
   };
 
 
@@ -58,32 +65,97 @@ class Players extends React.Component {
           </tr>
           </thead>
           <tbody>
-            {this.renderPlayers(players)}
+          {this.renderPlayers(players)}
           </tbody>
         </Table>
 
-        <Modal show={this.state.show} onHide={this.hideModal}>
-          <Modal.Header>
-            <Modal.Title id="example-custom-modal-styling-title">
-              Custom Modal Styling
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal show={this.state.showAddPlayer} onHide={this.hideAddPlayerModal}>
+          <Modal.Body>
+            <Form>
+              <Form.Group controlId="addPlayerId">
+                <Form.Label>Player</Form.Label>
+                <Form.Control as="select">
+                  <option>Abe Adams</option>
+                  <option>Bjorn Biffel</option>
+                  <option>Cameron Case</option>
+                </Form.Control>
+              </Form.Group>
+              <Form.Check inline
+                          type={'checkbox'}
+                          id={'buyInId'}
+                          label={'Buy-In'}
+              />
+              <Form.Check inline
+                          type={'checkbox'}
+                          id={'tocId'}
+                          label={'Annual TOC'}
+              />
+              <Form.Check inline
+                          type={'checkbox'}
+                          id={'qtocId'}
+                          label={'Quarterly TOC'}
+              />
+            </Form>
+          </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={this.hideModal}>
-              Close
+            <Button variant="secondary" onClick={this.hideAddPlayerModal}>
+              Cancel
             </Button>
-            <Button variant="primary" onClick={this.hideModal}>
-              Save Changes
+            <Button variant="primary" onClick={this.hideAddPlayerModal}>
+              Add Player
             </Button>
           </Modal.Footer>
         </Modal>
 
-        <Button variant="primary" onClick={this.showModal}>
-          Launch demo modal
+        <Modal show={this.state.showAddNewPlayer} onHide={this.hideAddNewPlayerModal}>
+          <Modal.Body>
+            <Form>
+              <Form.Group controlId="nameId">
+                <Form.Label>Name</Form.Label>
+                <Form.Control type="text" placeholder="First" />
+                <Form.Control type="text" placeholder="Last" />
+              </Form.Group>
+              <Form.Group controlId="emailId">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control type="email" placeholder="Enter email" />
+                <Form.Text className="text-muted">
+                  Needed to login
+                </Form.Text>
+              </Form.Group>
+              <Form.Check inline
+                          type={'checkbox'}
+                          id={'buyInId'}
+                          label={'Buy-In'}
+              />
+              <Form.Check inline
+                          type={'checkbox'}
+                          id={'tocId'}
+                          label={'Annual TOC'}
+              />
+              <Form.Check inline
+                          type={'checkbox'}
+                          id={'qtocId'}
+                          label={'Quarterly TOC'}
+              />
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.hideAddNewPlayerModal}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={this.hideAddNewPlayerModal}>
+              Add New Player
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Button variant="primary" onClick={this.showAddPlayerModal}>
+          Add Player
         </Button>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <Button variant="primary">Add FNG</Button>
+        <Button variant="primary" onClick={this.showAddNewPlayerModal}>
+          Add New Player
+        </Button>
       </div>
     );
   }
