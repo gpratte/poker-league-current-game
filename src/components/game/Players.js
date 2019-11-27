@@ -169,30 +169,32 @@ class Players extends React.Component {
         <Modal show={this.state.showEditPlayer} onHide={() => this.toggleModal('showEditPlayer', false)}>
           <Modal.Body>
             {this.state.player.firstName}
+            {(this.state.player.firstName && this.state.player.lastName) ? ' ' : ''}
+            {this.state.player.lastName}
             <Form>
               <Form.Check inline
                           type={'checkbox'}
                           id={'buyInId'}
                           label={'Buy-In'}
-                          checked={this.state.player.buyInCollected ? true : false}
+                          defaultChecked={this.state.player.buyInCollected ? true : false}
               />
               <Form.Check inline
                           type={'checkbox'}
                           id={'rebuyId'}
                           label={'Rebuy'}
-                          checked={this.state.player.rebuyAddOnCollected ? true : false}
+                          defaultChecked={this.state.player.rebuyAddOnCollected ? true : false}
               />
               <Form.Check inline
                           type={'checkbox'}
                           id={'tocId'}
                           label={'Annual TOC'}
-                          checked={this.state.player.annualTocCollected ? true : false}
+                          defaultChecked={this.state.player.annualTocCollected ? true : false}
               />
               <Form.Check inline
                           type={'checkbox'}
                           id={'qtocId'}
                           label={'Quarterly TOC'}
-                          checked={this.state.player.quarterlyTocCollected ? true : false}
+                          defaultChecked={this.state.player.quarterlyTocCollected ? true : false}
               />
             </Form>
           </Modal.Body>
