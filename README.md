@@ -10,6 +10,11 @@ The following shows what I did step by step.
 
 Each step can be found on the cooresponding branch.
 
+## step 07 redux 
+
+npm install --save react-redux
+npm install --save redux
+
 ## step 06 bootstrap
 Oh yeah, it's nice to add Bootstrap to the app for two reasons:
 1. It looks nice. Nice buttons, tables, rows and columns, ...

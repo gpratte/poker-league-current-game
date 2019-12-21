@@ -63,11 +63,10 @@ class Players extends React.Component {
   }
 
   render() {
-    const {paidPlayers, paidPlayersRemaining, averageStack, players} = this.props.value;
+    const players = this.props.value;
 
     return (
       <div>
-        <p><span>Players: {paidPlayersRemaining}/{paidPlayers} | Avg Stack: {averageStack}</span></p>
         <Table striped bordered size="sm">
           <thead>
           <tr>
