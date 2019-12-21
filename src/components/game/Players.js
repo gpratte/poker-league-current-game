@@ -63,20 +63,18 @@ class Players extends React.Component {
     })
   }
 
-  publish() {
+  addPlayer = (e) => {
+    e.preventDefault();
     store.dispatch({type: 'ADD_PLAYER', player: {
-        id: 24,
-        playerId: 15,
+        id: e.target.elements.playerId.value,
+        playerId: e.target.elements.playerId.value,
         gameId: 3,
         firstName: 'Josh',
         lastName: 'Bygosh',
-        points: 42,
-        finish: 9,
-        knockedOut: true,
-        buyInCollected: 40,
+        buyInCollected: e.target.elements.buyInId.checked ? 40 : null,
         rebuyAddOnCollected: null,
-        annualTocCollected: 20,
-        quarterlyTocCollected: null,
+        annualTocCollected: e.target.elements.tocId.checked ? 20 : null,
+        quarterlyTocCollected: e.target.elements.qtocId.checked ? 20 : null,
         chop: null
       }})
   }
@@ -106,13 +104,13 @@ class Players extends React.Component {
 
         <Modal show={this.state.showAddPlayer} onHide={() => this.toggleModal('showAddPlayer', false)}>
           <Modal.Body>
-            <Form>
-              <Form.Group controlId="addPlayerId">
+            <Form onSubmit={this.addPlayer}>
+              <Form.Group>
                 <Form.Label>Player</Form.Label>
-                <Form.Control as="select">
-                  <option>Abe Adams</option>
-                  <option>Bjorn Biffel</option>
-                  <option>Cameron Case</option>
+                <Form.Control as="select" id="playerId">
+                  <option value={"110"}>Abe Adams</option>
+                  <option value={"120"}>Bjorn Biffel</option>
+                  <option value={"130"}>Cameron Case</option>
                 </Form.Control>
               </Form.Group>
               <Form.Check inline
@@ -130,18 +128,18 @@ class Players extends React.Component {
                           id={'qtocId'}
                           label={'Quarterly TOC'}
               />
+              <Button variant="secondary" onClick={() => this.toggleModal('showAddPlayer', false)}>
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={() => {
+                //this.publish();
+                this.toggleModal('showAddPlayer', false)
+              }} type="submit">
+                Add Player
+              </Button>
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => this.toggleModal('showAddPlayer', false)}>
-              Cancel
-            </Button>
-            <Button variant="primary" onClick={() => {
-              this.publish();
-              this.toggleModal('showAddPlayer', false)
-            }}>
-              Add Player
-            </Button>
           </Modal.Footer>
         </Modal>
 
