@@ -8,7 +8,7 @@ class Clock extends React.Component {
   };
 
   render() {
-    const {minutes, seconds, playing, thisRound, nextRound} = this.props.value;
+    const {thisRound, nextRound} = this.props.value;
     return (
       <div>
         <div style={this.divStyle}>
@@ -23,9 +23,9 @@ class Clock extends React.Component {
             <tbody>
             <tr>
               <td></td>
-              <td> <a href={"#"}>&lt;&lt;</a>
-                &nbsp;&nbsp;&nbsp;<a href={"#"}>&gt;</a>
-                &nbsp;&nbsp;&nbsp;<a href={"#"}>&gt;&gt;</a> </td>
+              <td> <a href={"http://example.com"}>&lt;&lt;</a>
+                &nbsp;&nbsp;&nbsp;<a href={"http://example.com"}>&gt;</a>
+                &nbsp;&nbsp;&nbsp;<a href={"http://example.com"}>&gt;&gt;</a> </td>
               <td></td>
             </tr>
             <tr>

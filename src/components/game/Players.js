@@ -1,5 +1,6 @@
 import React from 'react'
 import './Players.css'
+import store from '../../store'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -62,6 +63,24 @@ class Players extends React.Component {
     })
   }
 
+  publish() {
+    store.dispatch({type: 'ADD_PLAYER', player: {
+        id: 24,
+        playerId: 15,
+        gameId: 3,
+        firstName: 'Josh',
+        lastName: 'Bygosh',
+        points: 42,
+        finish: 9,
+        knockedOut: true,
+        buyInCollected: 40,
+        rebuyAddOnCollected: null,
+        annualTocCollected: 20,
+        quarterlyTocCollected: null,
+        chop: null
+      }})
+  }
+
   render() {
     const players = this.props.value;
 
@@ -117,7 +136,10 @@ class Players extends React.Component {
             <Button variant="secondary" onClick={() => this.toggleModal('showAddPlayer', false)}>
               Cancel
             </Button>
-            <Button variant="primary" onClick={() => this.toggleModal('showAddPlayer', false)}>
+            <Button variant="primary" onClick={() => {
+              this.publish();
+              this.toggleModal('showAddPlayer', false)
+            }}>
               Add Player
             </Button>
           </Modal.Footer>

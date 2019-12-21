@@ -22,7 +22,7 @@ class Seating extends React.Component {
 
   renderRequests(seatRequests) {
     return seatRequests.map((seatRequest, index) => {
-      const { id, playerId, playerName, tableNum} = seatRequest;
+      const { id, playerId, tableNum} = seatRequest;
       return (
         <tr key={id}>
           <td>

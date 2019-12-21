@@ -11,7 +11,8 @@ import Seating from './Seating'
 
 class CurrentGame extends React.Component {
   render() {
-    const {game, seating, clock} = this.props.value;
+    const game = this.props.game;
+    const {seating, clock} = game;
     return (
       <div>
         <Accordion>
