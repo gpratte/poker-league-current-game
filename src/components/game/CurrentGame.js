@@ -5,8 +5,8 @@ import Button from 'react-bootstrap/Button';
 
 import Details from './Details'
 import Clock from './Clock'
-import Players from './Players'
-import PlayersRemaining from './PlayersRemaining'
+import GamePlayers from './GamePlayers'
+import GamePlayersRemaining from './GamePlayersRemaining'
 import Seating from './Seating'
 
 class CurrentGame extends React.Component {
@@ -29,8 +29,8 @@ class CurrentGame extends React.Component {
         </Accordion>
 
         <Clock value={clock}/>
-        <PlayersRemaining value={game}/>
-        <Players value={game.players}/>
+        <GamePlayersRemaining value={game}/>
+        <GamePlayers value={game}/>
 
         <Accordion>
           <Card>

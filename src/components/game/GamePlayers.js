@@ -1,17 +1,19 @@
 import React from 'react'
-import './Players.css'
+import './GamePlayers.css'
 import store from '../../store'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
+import {ADD_EXISTING_PLAYER_TO_GAME} from '../../actions/GameActions'
+import _ from 'lodash';
 
-class Players extends React.Component {
+class GamePlayers extends React.Component {
 
   state = {showAddPlayer: false,
     showAddNewPlayer: false,
     showEditPlayer: false,
-    player: {
+    gamePlayer: {
       id: 24,
       playerId: 15,
       firstName: 'Josh',
@@ -38,12 +40,12 @@ class Players extends React.Component {
     this.setState(newState);
   };
 
-  renderPlayers(players) {
-    return players.map((player, index) => {
+  renderGamePlayers(gamePlayers) {
+    return gamePlayers.map((gamePlayer, index) => {
       const {
         id, firstName, lastName, buyInCollected, rebuyAddOnCollected, annualTocCollected,
         quarterlyTocCollected, points, finish, knockedOut
-      } = player;
+      } = gamePlayer;
       return (
         <tr key={id}>
           <td className="knocked-out">{knockedOut ? 'x' : ''}</td>
@@ -63,24 +65,38 @@ class Players extends React.Component {
     })
   }
 
+  renderPlayers(players, gamePlayers) {
+    // Remove players already in game
+    const filtered = _.filter(players,
+      (p) => {
+        let index = _.findIndex(gamePlayers, {"playerId": p.id});
+        return index === -1;
+      }
+    )
+
+    return filtered.map((player, index) => {
+      const {
+        id, firstName, lastName
+      } = player;
+      return (
+        <option key={id} value={id}>{firstName}{(firstName && lastName) ? ' ' : ''}{lastName}</option>
+      )
+    })
+  }
+
   addPlayer = (e) => {
     e.preventDefault();
-    store.dispatch({type: 'ADD_PLAYER', player: {
+    store.dispatch({type: ADD_EXISTING_PLAYER_TO_GAME, player: {
         id: e.target.elements.playerId.value,
-        playerId: e.target.elements.playerId.value,
-        gameId: 3,
-        firstName: 'Josh',
-        lastName: 'Bygosh',
-        buyInCollected: e.target.elements.buyInId.checked ? 40 : null,
-        rebuyAddOnCollected: null,
-        annualTocCollected: e.target.elements.tocId.checked ? 20 : null,
-        quarterlyTocCollected: e.target.elements.qtocId.checked ? 20 : null,
-        chop: null
+        buyInCollected: e.target.elements.buyInId.checked,
+        annualTocCollected: e.target.elements.tocId.checked,
+        quarterlyTocCollected: e.target.elements.qtocId.checked,
       }})
   }
 
   render() {
-    const players = this.props.value;
+    const game = this.props.value;
+    const {players, gamePlayers} = game;
 
     return (
       <div>
@@ -98,7 +114,7 @@ class Players extends React.Component {
           </tr>
           </thead>
           <tbody>
-          {this.renderPlayers(players)}
+          {this.renderGamePlayers(gamePlayers)}
           </tbody>
         </Table>
 
@@ -108,9 +124,7 @@ class Players extends React.Component {
               <Form.Group>
                 <Form.Label>Player</Form.Label>
                 <Form.Control as="select" id="playerId">
-                  <option value={"110"}>Abe Adams</option>
-                  <option value={"120"}>Bjorn Biffel</option>
-                  <option value={"130"}>Cameron Case</option>
+                  {this.renderPlayers(players, gamePlayers)}
                 </Form.Control>
               </Form.Group>
               <Form.Check inline
@@ -128,19 +142,19 @@ class Players extends React.Component {
                           id={'qtocId'}
                           label={'Quarterly TOC'}
               />
-              <Button variant="secondary" onClick={() => this.toggleModal('showAddPlayer', false)}>
-                Cancel
-              </Button>
-              <Button variant="primary" onClick={() => {
-                //this.publish();
-                this.toggleModal('showAddPlayer', false)
-              }} type="submit">
-                Add Player
-              </Button>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={() => this.toggleModal('showAddPlayer', false)}>
+                  Cancel
+                </Button>
+                <Button variant="primary" onClick={() => {
+                  //this.publish();
+                  this.toggleModal('showAddPlayer', false)
+                }} type="submit">
+                  Add Player
+                </Button>
+              </Modal.Footer>
             </Form>
           </Modal.Body>
-          <Modal.Footer>
-          </Modal.Footer>
         </Modal>
 
         <Modal show={this.state.showAddNewPlayer} onHide={() => this.toggleModal('showAddNewPlayer', false)}>
@@ -187,33 +201,33 @@ class Players extends React.Component {
 
         <Modal show={this.state.showEditPlayer} onHide={() => this.toggleModal('showEditPlayer', false)}>
           <Modal.Body>
-            {this.state.player.firstName}
-            {(this.state.player.firstName && this.state.player.lastName) ? ' ' : ''}
-            {this.state.player.lastName}
+            {this.state.gamePlayer.firstName}
+            {(this.state.gamePlayer.firstName && this.state.gamePlayer.lastName) ? ' ' : ''}
+            {this.state.gamePlayer.lastName}
             <Form>
               <Form.Check inline
                           type={'checkbox'}
                           id={'buyInId'}
                           label={'Buy-In'}
-                          defaultChecked={this.state.player.buyInCollected ? true : false}
+                          defaultChecked={this.state.gamePlayer.buyInCollected ? true : false}
               />
               <Form.Check inline
                           type={'checkbox'}
                           id={'rebuyId'}
                           label={'Rebuy'}
-                          defaultChecked={this.state.player.rebuyAddOnCollected ? true : false}
+                          defaultChecked={this.state.gamePlayer.rebuyAddOnCollected ? true : false}
               />
               <Form.Check inline
                           type={'checkbox'}
                           id={'tocId'}
                           label={'Annual TOC'}
-                          defaultChecked={this.state.player.annualTocCollected ? true : false}
+                          defaultChecked={this.state.gamePlayer.annualTocCollected ? true : false}
               />
               <Form.Check inline
                           type={'checkbox'}
                           id={'qtocId'}
                           label={'Quarterly TOC'}
-                          defaultChecked={this.state.player.quarterlyTocCollected ? true : false}
+                          defaultChecked={this.state.gamePlayer.quarterlyTocCollected ? true : false}
               />
             </Form>
           </Modal.Body>
@@ -240,4 +254,4 @@ class Players extends React.Component {
   }
 }
 
-export default Players
+export default GamePlayers

@@ -1,7 +1,7 @@
 import React from 'react'
-import './Players.css'
+import './GamePlayers.css'
 
-class PlayersRemaining extends React.Component {
+class GamePlayersRemaining extends React.Component {
 
   render() {
     const {paidPlayers, paidPlayersRemaining, averageStack} = this.props.value;
@@ -14,4 +14,4 @@ class PlayersRemaining extends React.Component {
   }
 }
 
-export default PlayersRemaining
+export default GamePlayersRemaining
