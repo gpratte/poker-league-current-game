@@ -12,8 +12,46 @@ Each step can be found on the cooresponding branch.
 
 ## step 07 redux 
 
-npm install --save react-redux
-npm install --save redux
+First needed to be able to access the redux libraries.
+* npm install --save react-redux
+* npm install --save redux
+
+Wiring up redux in this application was difficult for two reasons
+1. learning redux for the first time
+2. there are a lot of react components
+
+I simplified the scope of wiring up redux by concentrating on being able to add an 
+existing league player to the current game. But this was still too much to do in this
+application (e.g. getting the player information from a react bootstrap modal dialog). 
+So to simplify things even more I created a very small repository. See 
+https://github.com/gpratte/redux-toy-poker-game.
+
+There were two aha moments. The first was figuring out that the redux connector is used early in 
+the application plumbing (i.e. in App.js which is loaded by index.js). Here is a simplified version of App.js
+```
+import React from 'react';
+import CurrentGameConnector from './CurrentGameConnector'
+class App extends React.Component {
+  render() {
+    return (
+      <CurrentGameConnector/>
+    )
+  }
+}
+```
+
+The second aha moment was putting the store in its own file. Here is a simple store.js
+``` 
+import { createStore } from 'redux'
+import reducer from './gameReducers'
+const game = {
+  id: 12345,
+  ...
+}
+const store = createStore(reducer, game);
+export default store;
+```
+
 
 ## step 06 bootstrap
 Oh yeah, it's nice to add Bootstrap to the app for two reasons:
