@@ -5,13 +5,15 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
-import {ADD_EXISTING_PLAYER_TO_GAME} from '../../actions/GameActions'
+import {
+  ADD_EXISTING_PLAYER_TO_GAME,
+  TOGGLE_ADD_EXISTING_PLAYER_TO_GAME
+} from '../../actions/GameActions'
 import _ from 'lodash';
 
 class GamePlayers extends React.Component {
 
-  state = {showAddPlayer: false,
-    showAddNewPlayer: false,
+  state = {showAddNewPlayer: false,
     showEditPlayer: false,
     gamePlayer: {
       id: 24,
@@ -84,7 +86,7 @@ class GamePlayers extends React.Component {
     })
   }
 
-  addPlayer = (e) => {
+  addExistingPlayer = (e) => {
     e.preventDefault();
     store.dispatch({type: ADD_EXISTING_PLAYER_TO_GAME, player: {
         id: e.target.elements.playerId.value,
@@ -92,6 +94,7 @@ class GamePlayers extends React.Component {
         annualTocCollected: e.target.elements.tocId.checked,
         quarterlyTocCollected: e.target.elements.qtocId.checked,
       }})
+    store.dispatch({type: TOGGLE_ADD_EXISTING_PLAYER_TO_GAME, show: false})
   }
 
   render() {
@@ -118,9 +121,9 @@ class GamePlayers extends React.Component {
           </tbody>
         </Table>
 
-        <Modal show={this.state.showAddPlayer} onHide={() => this.toggleModal('showAddPlayer', false)}>
+        <Modal show={this.props.value.showAddExistingPlayer} onHide={() => store.dispatch({type: TOGGLE_ADD_EXISTING_PLAYER_TO_GAME, show: false})}>
           <Modal.Body>
-            <Form onSubmit={this.addPlayer}>
+            <Form onSubmit={this.addExistingPlayer}>
               <Form.Group>
                 <Form.Label>Player</Form.Label>
                 <Form.Control as="select" id="playerId">
@@ -143,13 +146,12 @@ class GamePlayers extends React.Component {
                           label={'Quarterly TOC'}
               />
               <Modal.Footer>
-                <Button variant="secondary" onClick={() => this.toggleModal('showAddPlayer', false)}>
+                <Button variant="secondary" onClick={() => {
+                  store.dispatch({type: TOGGLE_ADD_EXISTING_PLAYER_TO_GAME, show: false})
+                }}>
                   Cancel
                 </Button>
-                <Button variant="primary" onClick={() => {
-                  //this.publish();
-                  this.toggleModal('showAddPlayer', false)
-                }} type="submit">
+                <Button variant="primary" type="submit">
                   Add Player
                 </Button>
               </Modal.Footer>
@@ -242,7 +244,7 @@ class GamePlayers extends React.Component {
         </Modal>
 
 
-        <Button variant="primary" onClick={() => this.toggleModal('showAddPlayer', true)}>
+        <Button variant="primary" onClick={() => store.dispatch({type: TOGGLE_ADD_EXISTING_PLAYER_TO_GAME, show: true})}>
           Add Player
         </Button>
         &nbsp;&nbsp;&nbsp;&nbsp;

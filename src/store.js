@@ -134,7 +134,8 @@ const game = {
       bigBlind: 200,
       ante: 100
     }
-  }
+  },
+  showAddExistingPlayer: false
 }
 
 

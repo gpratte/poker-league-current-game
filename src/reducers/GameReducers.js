@@ -1,15 +1,15 @@
 import {
-  ADD_EXISTING_PLAYER_TO_GAME
+  ADD_EXISTING_PLAYER_TO_GAME,
+  TOGGLE_ADD_EXISTING_PLAYER_TO_GAME
 } from '../actions/GameActions'
 import _ from 'lodash';
 
 
 // Take the game as the parameter
-function reducer(state, action) {
+function reducer(game, action) {
   switch (action.type) {
     case ADD_EXISTING_PLAYER_TO_GAME:
       // Find the player in the list of all the league players
-      const game = state;
       const {buyInCost, annualTocCost, quarterlyTocCost} = game;
 
       // Make sure its a primitive
@@ -23,11 +23,13 @@ function reducer(state, action) {
       player['annualTocCollected'] = action.player.annualTocCollected ? annualTocCost : null;
       player['quarterlyTocCollected'] = action.player.quarterlyTocCollected ? quarterlyTocCost : null;
 
-      let newGame = Object.assign({}, state);
+      let newGame = Object.assign({}, game);
       newGame.gamePlayers.push(player);
       return newGame;
+    case TOGGLE_ADD_EXISTING_PLAYER_TO_GAME:
+      return Object.assign({}, game, {showAddExistingPlayer: action.show});
     default:
-      return state
+      return game;
   }
 }
 
