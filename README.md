@@ -10,6 +10,14 @@ The following shows what I did step by step.
 
 Each step can be found on the cooresponding branch.
 
+## step 08 add player modal component
+Moved the add existing player modal dialog out of the GamePlayers component and into its own 
+component (AddExistingPlayer.js). 
+
+This was made possible by changing the show/hide boolean from the react state to 
+redux (see the _showAddExistingPlayer_ boolean in the store and the 
+corresponding reducer and dispatching the action). 
+
 ## step 07 redux 
 
 First needed to be able to access the redux libraries.
