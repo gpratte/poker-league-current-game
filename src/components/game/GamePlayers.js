@@ -26,7 +26,7 @@ class GamePlayers extends React.Component {
     return gamePlayers.map((gamePlayer, index) => {
       const {
         id, firstName, lastName, buyInCollected, rebuyAddOnCollected, annualTocCollected,
-        quarterlyTocCollected, points, finish, knockedOut
+        quarterlyTocCollected, chop, points, finish, knockedOut
       } = gamePlayer;
       return (
         <tr key={id}>
@@ -43,6 +43,7 @@ class GamePlayers extends React.Component {
           <td>{rebuyAddOnCollected ? String.fromCharCode(10004) : ''}</td>
           <td>{annualTocCollected ? String.fromCharCode(10004) : ''}</td>
           <td>{quarterlyTocCollected ? String.fromCharCode(10004) : ''}</td>
+          <td>{chop ? chop : ''}</td>
           <td>{points ? points : ''}</td>
         </tr>
       )
@@ -65,6 +66,7 @@ class GamePlayers extends React.Component {
             <th>Re<br/>Buy</th>
             <th>TOC</th>
             <th>QTOC</th>
+            <th>Chop</th>
             <th>Pts</th>
           </tr>
           </thead>

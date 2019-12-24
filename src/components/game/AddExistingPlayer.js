@@ -51,7 +51,6 @@ class AddExistingPlayer extends React.Component {
           <Modal.Body>
             <Form onSubmit={this.addExistingPlayer}>
               <Form.Group>
-                <Form.Label>Player</Form.Label>
                 <Form.Control as="select" id="playerId">
                   {this.renderPlayers(players, gamePlayers)}
                 </Form.Control>

@@ -33,6 +33,7 @@ function reducer(game, action) {
 
       // Make sure its a primitive
       const gamePlayerId = parseInt('' + action.gamePlayer.id);
+      const finish = parseInt('' + action.gamePlayer.finish);
 
       const indexOfGamePlayer = _.findIndex(gameWithUpdatedPlayer.gamePlayers, { 'id': gamePlayerId });
       const gamePlayerToUpdate = gameWithUpdatedPlayer.gamePlayers[indexOfGamePlayer];
@@ -40,6 +41,9 @@ function reducer(game, action) {
       gamePlayerToUpdate['annualTocCollected'] = action.gamePlayer.annualTocCollected ? game.annualTocCost : null;
       gamePlayerToUpdate['quarterlyTocCollected'] = action.gamePlayer.quarterlyTocCollected ? game.quarterlyTocCost : null;
       gamePlayerToUpdate['rebuyAddOnCollected'] = action.gamePlayer.rebuyAddOnCollected ? game.quarterlyTocCost : null;
+      gamePlayerToUpdate['knockedOut'] = action.gamePlayer.knockedOut;
+      gamePlayerToUpdate['finish'] = finish === 11 ? null : finish;
+      gamePlayerToUpdate['chop'] = action.gamePlayer.chop ? parseInt('' + action.gamePlayer.chop) : null;
       return gameWithUpdatedPlayer;
     default:
       return game;
