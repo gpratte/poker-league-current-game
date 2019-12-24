@@ -8,7 +8,8 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import {
   EDIT_GAME_PLAYER,
-  UPDATE_GAME_PLAYER
+  UPDATE_GAME_PLAYER,
+  DELETE_GAME_PLAYER
 } from '../../actions/GameActions'
 import _ from "lodash";
 
@@ -104,6 +105,15 @@ class EditGamePlayer extends React.Component {
                 </Col>
               </Form.Group>
               <Modal.Footer>
+                <Button variant="danger" className='mr-auto' onClick={() => {
+                  // eslint-disable-next-line no-restricted-globals
+                  const doit = confirm('are you sure?');
+                  if (doit) {
+                    store.dispatch({type: DELETE_GAME_PLAYER, id: gamePlayer ? gamePlayer.id : 0})
+                  }
+                }}>
+                  Delete
+                </Button>
                 <Button variant="secondary" onClick={() => {
                   store.dispatch({type: EDIT_GAME_PLAYER, id: null})
                 }}>

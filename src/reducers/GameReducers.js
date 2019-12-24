@@ -2,7 +2,8 @@ import {
   ADD_EXISTING_PLAYER_TO_GAME,
   TOGGLE_ADD_EXISTING_PLAYER_TO_GAME,
   EDIT_GAME_PLAYER,
-  UPDATE_GAME_PLAYER
+  UPDATE_GAME_PLAYER,
+  DELETE_GAME_PLAYER
 } from '../actions/GameActions'
 import _ from 'lodash';
 
@@ -45,6 +46,12 @@ function reducer(game, action) {
       gamePlayerToUpdate['finish'] = finish === 11 ? null : finish;
       gamePlayerToUpdate['chop'] = action.gamePlayer.chop ? parseInt('' + action.gamePlayer.chop) : null;
       return gameWithUpdatedPlayer;
+    case DELETE_GAME_PLAYER:
+      let gameWithDeletedPlayer = Object.assign({}, game, {editGamePlayerId: null});
+      _.remove(gameWithDeletedPlayer.gamePlayers, function(gp) {
+        return gp.id === action.id;
+      });
+      return gameWithDeletedPlayer;
     default:
       return game;
   }
