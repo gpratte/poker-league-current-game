@@ -39,7 +39,6 @@ class AddExistingPlayer extends React.Component {
         annualTocCollected: e.target.elements.tocId.checked,
         quarterlyTocCollected: e.target.elements.qtocId.checked,
       }})
-    store.dispatch({type: TOGGLE_ADD_EXISTING_PLAYER_TO_GAME, show: false})
   }
 
   render() {

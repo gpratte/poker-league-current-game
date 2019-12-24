@@ -6,38 +6,19 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
 import {
-  TOGGLE_ADD_EXISTING_PLAYER_TO_GAME
+  TOGGLE_ADD_EXISTING_PLAYER_TO_GAME,
+  EDIT_GAME_PLAYER
 } from '../../actions/GameActions'
 import AddExistingPlayer from "./AddExistingPlayer";
+import EditGamePlayer from "./EditGamePlayer";
 
 class GamePlayers extends React.Component {
 
-  state = {showAddNewPlayer: false,
-    showEditPlayer: false,
-    gamePlayer: {
-      id: 24,
-      playerId: 15,
-      firstName: 'Josh',
-      lastName: 'Bygosh',
-      buyInCollected: 40,
-      rebuyAddOnCollected: null,
-      annualTocCollected: 20,
-      quarterlyTocCollected: null,
-      chop: null
-    },
-
-  };
+  state = {showAddNewPlayer: false};
 
   toggleModal = (name, value) => {
     const newState = {...this.state};
     newState[name] = value;
-    this.setState(newState);
-  };
-
-  editPlayer = (id) => {
-    const newState = {...this.state};
-    // TODO find player in list of players and set the state.player
-    newState.showEditPlayer = true;
     this.setState(newState);
   };
 
@@ -52,7 +33,9 @@ class GamePlayers extends React.Component {
           <td className="knocked-out">{knockedOut ? 'x' : ''}</td>
           <td>{finish}</td>
           <td>
-            <Button variant="link" onClick={() => this.editPlayer(id)}>
+            <Button variant="link" onClick={() => {
+              store.dispatch({type: EDIT_GAME_PLAYER, id: id});
+            }}>
               {firstName}{(firstName && lastName) ? ' ' : ''}{lastName}
             </Button>
           </td>
@@ -134,47 +117,7 @@ class GamePlayers extends React.Component {
           </Modal.Footer>
         </Modal>
 
-        <Modal show={this.state.showEditPlayer} onHide={() => this.toggleModal('showEditPlayer', false)}>
-          <Modal.Body>
-            {this.state.gamePlayer.firstName}
-            {(this.state.gamePlayer.firstName && this.state.gamePlayer.lastName) ? ' ' : ''}
-            {this.state.gamePlayer.lastName}
-            <Form>
-              <Form.Check inline
-                          type={'checkbox'}
-                          id={'buyInId'}
-                          label={'Buy-In'}
-                          defaultChecked={this.state.gamePlayer.buyInCollected ? true : false}
-              />
-              <Form.Check inline
-                          type={'checkbox'}
-                          id={'rebuyId'}
-                          label={'Rebuy'}
-                          defaultChecked={this.state.gamePlayer.rebuyAddOnCollected ? true : false}
-              />
-              <Form.Check inline
-                          type={'checkbox'}
-                          id={'tocId'}
-                          label={'Annual TOC'}
-                          defaultChecked={this.state.gamePlayer.annualTocCollected ? true : false}
-              />
-              <Form.Check inline
-                          type={'checkbox'}
-                          id={'qtocId'}
-                          label={'Quarterly TOC'}
-                          defaultChecked={this.state.gamePlayer.quarterlyTocCollected ? true : false}
-              />
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => this.toggleModal('showEditPlayer', false)}>
-              Cancel
-            </Button>
-            <Button variant="primary" onClick={() => this.toggleModal('showEditPlayer', false)}>
-              Update
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        <EditGamePlayer value={game}/>
 
         <Button variant="primary" onClick={() => store.dispatch({type: TOGGLE_ADD_EXISTING_PLAYER_TO_GAME, show: true})}>
           Add Player

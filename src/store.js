@@ -135,7 +135,8 @@ const game = {
       ante: 100
     }
   },
-  showAddExistingPlayer: false
+  showAddExistingPlayer: false,
+  editGamePlayerId: null
 }
 
 
