@@ -10,6 +10,17 @@ The following shows what I did step by step.
 
 Each step can be found on the cooresponding branch.
 
+## step 09 edit player
+Now that I understand how to use the redux store for not only the 
+game state but also for the UI state, things a flowing nicely.
+
+Wired up all the pieces to edit a game player
+* buy-in, rebuy
+* finish in the top 10
+* chop amount
+* knocked out
+* delete
+
 ## step 08 add player modal component
 Moved the add existing player modal dialog out of the GamePlayers component and into its own 
 component (AddExistingPlayer.js). 
