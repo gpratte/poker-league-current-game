@@ -117,24 +117,6 @@ const game = {
       }
     ]
   },
-  clock: {
-    clockId: 1,
-    minutes: 18,
-    seconds: 23,
-    playing: true,
-    thisRound: {
-      round: 'Round 4',
-      smallBlind: 100,
-      bigBlind: 200,
-      ante: 0
-    },
-    nextRound: {
-      round: 'Round 5',
-      smallBlind: 100,
-      bigBlind: 200,
-      ante: 100
-    }
-  },
   showAddExistingPlayer: false,
   showAddNewPlayer: false,
   editGamePlayerId: null
