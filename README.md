@@ -10,6 +10,13 @@ The following shows what I did step by step.
 
 Each step can be found on the cooresponding branch.
 
+## step 10 add new player
+Wired up the ability to add a new player (a player that has never played
+in the league before) to a game.
+
+Just cranking the wheel now. Easy to implement this since adding an existing
+player and updating a player have already been coded.
+
 ## step 09 edit player
 Now that I understand how to use the redux store for not only the 
 game state but also for the UI state, things a flowing nicely.
