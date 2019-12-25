@@ -10,6 +10,11 @@ The following shows what I did step by step.
 
 Each step can be found on the cooresponding branch.
 
+## step 11 remove clock
+Removed the clock react component and the clock in the store.
+
+Will implement the clock later (maybe using a websocket instead of redux).
+
 ## step 10 add new player
 Wired up the ability to add a new player (a player that has never played
 in the league before) to a game.
