@@ -1,6 +1,8 @@
 import {
   ADD_EXISTING_PLAYER_TO_GAME,
+  ADD_NEW_PLAYER_TO_GAME,
   TOGGLE_ADD_EXISTING_PLAYER_TO_GAME,
+  TOGGLE_ADD_NEW_PLAYER_TO_GAME,
   EDIT_GAME_PLAYER,
   UPDATE_GAME_PLAYER,
   DELETE_GAME_PLAYER
@@ -25,8 +27,20 @@ function reducer(game, action) {
       let gameWithAddedPlayer = Object.assign({}, game, {showAddExistingPlayer: false});
       gameWithAddedPlayer.gamePlayers.push(player);
       return gameWithAddedPlayer;
+    case ADD_NEW_PLAYER_TO_GAME:
+      let newPlayer = action.player;
+      newPlayer['id'] = new Date().getTime();
+      newPlayer['buyInCollected'] = action.player.buyInCollected ? game.buyInCost : null;
+      newPlayer['annualTocCollected'] = action.player.annualTocCollected ? game.annualTocCost : null;
+      newPlayer['quarterlyTocCollected'] = action.player.quarterlyTocCollected ? game.quarterlyTocCost : null;
+
+      let gameWithNewPlayer = Object.assign({}, game, {showAddNewPlayer: false});
+      gameWithNewPlayer.gamePlayers.push(newPlayer);
+      return gameWithNewPlayer;
     case TOGGLE_ADD_EXISTING_PLAYER_TO_GAME:
       return Object.assign({}, game, {showAddExistingPlayer: action.show});
+    case TOGGLE_ADD_NEW_PLAYER_TO_GAME:
+      return Object.assign({}, game, {showAddNewPlayer: action.show});
     case EDIT_GAME_PLAYER:
       return Object.assign({}, game, {editGamePlayerId: action.id});
     case UPDATE_GAME_PLAYER:

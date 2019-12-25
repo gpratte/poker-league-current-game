@@ -136,6 +136,7 @@ const game = {
     }
   },
   showAddExistingPlayer: false,
+  showAddNewPlayer: false,
   editGamePlayerId: null
 }
 

@@ -2,25 +2,17 @@ import React from 'react'
 import './GamePlayers.css'
 import store from '../../store'
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
 import {
   TOGGLE_ADD_EXISTING_PLAYER_TO_GAME,
+  TOGGLE_ADD_NEW_PLAYER_TO_GAME,
   EDIT_GAME_PLAYER
 } from '../../actions/GameActions'
 import AddExistingPlayer from "./AddExistingPlayer";
+import AddNewPlayer from "./AddNewPlayer";
 import EditGamePlayer from "./EditGamePlayer";
 
 class GamePlayers extends React.Component {
-
-  state = {showAddNewPlayer: false};
-
-  toggleModal = (name, value) => {
-    const newState = {...this.state};
-    newState[name] = value;
-    this.setState(newState);
-  };
 
   renderGamePlayers(gamePlayers) {
     return gamePlayers.map((gamePlayer, index) => {
@@ -68,6 +60,7 @@ class GamePlayers extends React.Component {
             <th>QTOC</th>
             <th>Chop</th>
             <th>Pts</th>
+
           </tr>
           </thead>
           <tbody>
@@ -76,56 +69,14 @@ class GamePlayers extends React.Component {
         </Table>
 
         <AddExistingPlayer value={game}/>
-
-        <Modal show={this.state.showAddNewPlayer} onHide={() => this.toggleModal('showAddNewPlayer', false)}>
-          <Modal.Body>
-            <Form>
-              <Form.Group controlId="nameId">
-                <Form.Label>Name</Form.Label>
-                <Form.Control type="text" placeholder="First" />
-                <Form.Control type="text" placeholder="Last" />
-              </Form.Group>
-              <Form.Group controlId="emailId">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
-                <Form.Text className="text-muted">
-                  Needed to login
-                </Form.Text>
-              </Form.Group>
-              <Form.Check inline
-                          type={'checkbox'}
-                          id={'buyInId'}
-                          label={'Buy-In'}
-              />
-              <Form.Check inline
-                          type={'checkbox'}
-                          id={'tocId'}
-                          label={'Annual TOC'}
-              />
-              <Form.Check inline
-                          type={'checkbox'}
-                          id={'qtocId'}
-                          label={'Quarterly TOC'}
-              />
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => this.toggleModal('showAddNewPlayer', false)}>
-              Cancel
-            </Button>
-            <Button variant="primary" onClick={() => this.toggleModal('showAddNewPlayer', false)}>
-              Add New Player
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
+        <AddNewPlayer value={game}/>
         <EditGamePlayer value={game}/>
 
         <Button variant="primary" onClick={() => store.dispatch({type: TOGGLE_ADD_EXISTING_PLAYER_TO_GAME, show: true})}>
           Add Player
         </Button>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <Button variant="primary" onClick={() => this.toggleModal('showAddNewPlayer', true)}>
+        <Button variant="primary" onClick={() => store.dispatch({type: TOGGLE_ADD_NEW_PLAYER_TO_GAME, show: true})}>
           Add New Player
         </Button>
       </div>
