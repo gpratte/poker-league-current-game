@@ -1,8 +1,9 @@
 import {
-  ADD_EXISTING_PLAYER_TO_GAME,
-  ADD_NEW_PLAYER_TO_GAME,
   TOGGLE_ADD_EXISTING_PLAYER_TO_GAME,
   TOGGLE_ADD_NEW_PLAYER_TO_GAME,
+  TOGGLE_CONFIGURE_SEATING,
+  ADD_EXISTING_PLAYER_TO_GAME,
+  ADD_NEW_PLAYER_TO_GAME,
   EDIT_GAME_PLAYER,
   UPDATE_GAME_PLAYER,
   DELETE_GAME_PLAYER
@@ -12,6 +13,12 @@ import _ from 'lodash';
 // Take the game as the parameter
 function reducer(game, action) {
   switch (action.type) {
+    case TOGGLE_ADD_EXISTING_PLAYER_TO_GAME:
+      return Object.assign({}, game, {showAddExistingPlayer: action.show});
+    case TOGGLE_ADD_NEW_PLAYER_TO_GAME:
+      return Object.assign({}, game, {showAddNewPlayer: action.show});
+    case TOGGLE_CONFIGURE_SEATING:
+      return Object.assign({}, game, {showConfigureSeating: action.show});
     case ADD_EXISTING_PLAYER_TO_GAME:
       // Make sure its a primitive
       const playerId = parseInt('' + action.player.id);
@@ -37,10 +44,6 @@ function reducer(game, action) {
       let gameWithNewPlayer = Object.assign({}, game, {showAddNewPlayer: false});
       gameWithNewPlayer.gamePlayers.push(newPlayer);
       return gameWithNewPlayer;
-    case TOGGLE_ADD_EXISTING_PLAYER_TO_GAME:
-      return Object.assign({}, game, {showAddExistingPlayer: action.show});
-    case TOGGLE_ADD_NEW_PLAYER_TO_GAME:
-      return Object.assign({}, game, {showAddNewPlayer: action.show});
     case EDIT_GAME_PLAYER:
       return Object.assign({}, game, {editGamePlayerId: action.id});
     case UPDATE_GAME_PLAYER:

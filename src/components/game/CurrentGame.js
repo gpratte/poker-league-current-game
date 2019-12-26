@@ -11,7 +11,6 @@ import Seating from './Seating'
 class CurrentGame extends React.Component {
   render() {
     const game = this.props.game;
-    const {seating} = game;
     return (
       <div>
         <Accordion>
@@ -38,7 +37,7 @@ class CurrentGame extends React.Component {
               </Accordion.Toggle>
             </Card.Header>
             <Accordion.Collapse eventKey="1">
-              <Card.Body><Seating value={seating}/></Card.Body>
+              <Card.Body><Seating value={game}/></Card.Body>
             </Accordion.Collapse>
           </Card>
         </Accordion>
