@@ -9,10 +9,6 @@ import {TOGGLE_CONFIGURE_SEATING} from "../../actions/GameActions";
 class Seating extends React.Component {
 
   renderTables(tables) {
-    if (tables === null) {
-      return;
-    }
-
     const seats = flatMap(tables, ({seats}) =>
       map(seats, seat => ({...seat}))
     );
@@ -55,7 +51,7 @@ class Seating extends React.Component {
 
   render() {
     const game = this.props.value;
-    const tables = game.seating ? game.seating.tables : null;
+    const {tables} = game;
     return (
       <div>
         <Table striped bordered size="sm">

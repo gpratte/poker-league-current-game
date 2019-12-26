@@ -55,6 +55,12 @@ const game = {
       lastName: 'Kibby',
     }
   ],
+  seating: {
+    numTables: 1,
+    numSeatsPerTable: 10,
+    tableRequests: [],
+    tables: []
+  },
   showAddExistingPlayer: false,
   showAddNewPlayer: false,
   showConfigureSeating: false,
