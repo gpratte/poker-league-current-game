@@ -10,6 +10,7 @@ export const ADD_NEW_PLAYER_TO_GAME = 'ADD_NEW_PLAYER_TO_GAME'
 export const EDIT_GAME_PLAYER = 'EDIT_GAME_PLAYER'
 export const UPDATE_GAME_PLAYER = 'UPDATE_GAME_PLAYER'
 export const DELETE_GAME_PLAYER = 'DELETE_GAME_PLAYER'
+export const ENABLE_SEATING_AT_TABLE = 'ENABLE_SEATING_AT_TABLE'
 
 /*
  * other constants
@@ -44,3 +45,6 @@ export function deleteGamePlayer(id) {
   return { type: DELETE_GAME_PLAYER, id }
 }
 
+export function enableSeatingAtTable() {
+  return { type: ENABLE_SEATING_AT_TABLE }
+}

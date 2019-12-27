@@ -64,7 +64,8 @@ const game = {
   showAddExistingPlayer: false,
   showAddNewPlayer: false,
   showConfigureSeating: false,
-  editGamePlayerId: null
+  editGamePlayerId: null,
+  playerRequestTable: false
 }
 
 

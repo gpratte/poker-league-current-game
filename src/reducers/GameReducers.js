@@ -6,7 +6,7 @@ import {
   ADD_NEW_PLAYER_TO_GAME,
   EDIT_GAME_PLAYER,
   UPDATE_GAME_PLAYER,
-  DELETE_GAME_PLAYER
+  DELETE_GAME_PLAYER, ENABLE_SEATING_AT_TABLE
 } from '../actions/GameActions'
 import _ from 'lodash';
 
@@ -69,6 +69,8 @@ function reducer(game, action) {
         return gp.id === action.id;
       });
       return gameWithDeletedPlayer;
+    case ENABLE_SEATING_AT_TABLE:
+      return Object.assign({}, game, {playerRequestTable: true});
     default:
       return game;
   }

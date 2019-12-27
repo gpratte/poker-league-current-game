@@ -4,10 +4,10 @@ import store from '../../store'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import SeatPlayerAtTableConfig from './SeatPlayerAtTableConfig'
 import {
   TOGGLE_CONFIGURE_SEATING
 } from '../../actions/GameActions'
-import _ from "lodash";
 
 const fiveTables = [1, 2, 3, 4, 5]
 const tenSeats = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -42,35 +42,6 @@ class SeatingConfig extends React.Component {
   }
 
 
-  renderTableRequests(tableRequests, gamePlayers) {
-    return _.forEach(tableRequests, function (request) {
-      return (
-        <div>
-          <Form.Control as="select" defaultValue={request.gamePlayerId} requestingGamePlayerid={request.gamePlayerId}>
-            {this.renderGamePlayers(gamePlayers)}
-          </Form.Control>
-          <Form.Control as="select" defaultValue={request.tableNum} requestedTableGamePlayerid={request.gamePlayerId}>
-            {this.renderNumberOfTables()}
-          </Form.Control>
-        </div>
-      )
-    });
-  }
-
-  renderEmptyTableRequest(gamePlayers) {
-    return (
-      <div>
-        <Form.Control as="select" requestingGamePlayerid={'-1'}>
-          <option key={-1}> </option>
-          {this.renderGamePlayers(gamePlayers)}
-        </Form.Control>
-        <Form.Control as="select" requestedTableGamePlayerid={'-1'}>
-          {this.renderNumberOfTables()}
-        </Form.Control>
-      </div>
-    )
-  }
-
   requestSeating = (e) => {
     e.preventDefault();
     console.log('request seating')
@@ -88,8 +59,7 @@ class SeatingConfig extends React.Component {
 
   render() {
     const game = this.props.value;
-    const {gamePlayers} = game;
-    const {numTables, numSeatsPerTable, tableRequests} = game.seating;
+    const {numTables, numSeatsPerTable} = game.seating;
 
     return (
       <div>
@@ -109,11 +79,9 @@ class SeatingConfig extends React.Component {
                   {this.renderNumberOfSeatsPerTable()}
                 </Form.Control>
               </Form.Group>
-              <Form.Group>
-                <Form.Label>Request Table</Form.Label>
-                {this.renderTableRequests(tableRequests, gamePlayers)}
-                {this.renderEmptyTableRequest(gamePlayers)}
-              </Form.Group>
+              <SeatPlayerAtTableConfig value={game}
+                                       renderNumberOfTables={this.renderNumberOfTables}
+                                       renderGamePlayers={this.renderGamePlayers}/>
               <Modal.Footer>
                 <Button variant="secondary" onClick={() => {
                   store.dispatch({type: TOGGLE_CONFIGURE_SEATING, show: false})
@@ -121,7 +89,7 @@ class SeatingConfig extends React.Component {
                   Cancel
                 </Button>
                 <Button variant="primary" type="submit">
-                  Request Seating
+                  Seat The Players
                 </Button>
               </Modal.Footer>
             </Form>
