@@ -6,7 +6,10 @@ import {
   ADD_NEW_PLAYER_TO_GAME,
   EDIT_GAME_PLAYER,
   UPDATE_GAME_PLAYER,
-  DELETE_GAME_PLAYER, ENABLE_SEATING_AT_TABLE
+  DELETE_GAME_PLAYER,
+  ENABLE_SEATING_AT_TABLE,
+  CHANGE_NUM_TABLES,
+  ADD_TABLE_REQUEST
 } from '../actions/GameActions'
 import _ from 'lodash';
 
@@ -53,7 +56,7 @@ function reducer(game, action) {
       const gamePlayerId = parseInt('' + action.gamePlayer.id);
       const finish = parseInt('' + action.gamePlayer.finish);
 
-      const indexOfGamePlayer = _.findIndex(gameWithUpdatedPlayer.gamePlayers, { 'id': gamePlayerId });
+      const indexOfGamePlayer = _.findIndex(gameWithUpdatedPlayer.gamePlayers, {'id': gamePlayerId});
       const gamePlayerToUpdate = gameWithUpdatedPlayer.gamePlayers[indexOfGamePlayer];
       gamePlayerToUpdate['buyInCollected'] = action.gamePlayer.buyInCollected ? game.buyInCost : null;
       gamePlayerToUpdate['annualTocCollected'] = action.gamePlayer.annualTocCollected ? game.annualTocCost : null;
@@ -65,12 +68,34 @@ function reducer(game, action) {
       return gameWithUpdatedPlayer;
     case DELETE_GAME_PLAYER:
       let gameWithDeletedPlayer = Object.assign({}, game, {editGamePlayerId: null});
-      _.remove(gameWithDeletedPlayer.gamePlayers, function(gp) {
+      _.remove(gameWithDeletedPlayer.gamePlayers, function (gp) {
         return gp.id === action.id;
       });
       return gameWithDeletedPlayer;
     case ENABLE_SEATING_AT_TABLE:
       return Object.assign({}, game, {playerRequestTable: true});
+    case CHANGE_NUM_TABLES:
+      const numSeatsPerTable = [...game.seating.numSeatsPerTable];
+      let delta = action.num - numSeatsPerTable.length;
+      let deltaPositive = true;
+      if (delta < 0) {
+        deltaPositive = false;
+        delta = Math.abs(delta);
+      }
+      for (let i = 0; i < delta; ++i) {
+        if (deltaPositive) {
+          numSeatsPerTable.push(10);
+        } else {
+          numSeatsPerTable.pop();
+        }
+      }
+      const seating = Object.assign({}, game.seating, {numTables: action.num}, {numSeatsPerTable: numSeatsPerTable});
+      return Object.assign({}, game, {seating: seating});
+    case ADD_TABLE_REQUEST:
+      const tableRequests = [...game.seating.tableRequests];
+      tableRequests.push(null);
+      const seating2 = Object.assign({}, game.seating, {tableRequests: tableRequests});
+      return Object.assign({}, game, {seating: seating2});
     default:
       return game;
   }

@@ -4,13 +4,16 @@ import store from '../../store'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import SeatPlayerAtTableConfig from './SeatPlayerAtTableConfig'
+import SeatingPlayerAtTable from './SeatingPlayerAtTable'
+import SeatingSeatsPerTable from './SeatingSeatsPerTable'
 import {
-  TOGGLE_CONFIGURE_SEATING
+  TOGGLE_CONFIGURE_SEATING,
+  CHANGE_NUM_TABLES
 } from '../../actions/GameActions'
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 const fiveTables = [1, 2, 3, 4, 5]
-const tenSeats = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 class SeatingConfig extends React.Component {
 
@@ -22,25 +25,9 @@ class SeatingConfig extends React.Component {
     })
   }
 
-  renderNumberOfSeatsPerTable() {
-    return tenSeats.map((num) => {
-      return (
-        <option key={num} value={num}>{num}</option>
-      )
-    })
+  handleChangeNumTables(e) {
+    store.dispatch({type: CHANGE_NUM_TABLES, num: e.target.value});
   }
-
-  renderGamePlayers(gamePlayers) {
-    return gamePlayers.map((gamePlayer) => {
-      const {
-        id, firstName, lastName
-      } = gamePlayer;
-      return (
-        <option key={id} value={id}>{firstName}{(firstName && lastName) ? ' ' : ''}{lastName}</option>
-      )
-    })
-  }
-
 
   requestSeating = (e) => {
     e.preventDefault();
@@ -59,7 +46,7 @@ class SeatingConfig extends React.Component {
 
   render() {
     const game = this.props.value;
-    const {numTables, numSeatsPerTable} = game.seating;
+    const {numTables} = game.seating;
 
     return (
       <div>
@@ -67,21 +54,20 @@ class SeatingConfig extends React.Component {
                onHide={() => store.dispatch({type: TOGGLE_CONFIGURE_SEATING, show: false})}>
           <Modal.Body>
             <Form onSubmit={this.requestSeating}>
-              <Form.Group>
+              <Form.Group as={Row} className="align-items-center">
                 <Form.Label>&nbsp;&nbsp;Number of Tables</Form.Label>
-                <Form.Control as="select" defaultValue={numTables} id="tablesId">
-                  {this.renderNumberOfTables()}
-                </Form.Control>
+                <Col>
+                  <Form.Control as="select" defaultValue={numTables} id="tablesId" onChange={this.handleChangeNumTables}>
+                    {this.renderNumberOfTables()}
+                  </Form.Control>
+                </Col>
               </Form.Group>
-              <Form.Group>
-                <Form.Label>&nbsp;&nbsp;Seats Per Table</Form.Label>
-                <Form.Control as="select" defaultValue={numSeatsPerTable} id="seatsId">
-                  {this.renderNumberOfSeatsPerTable()}
-                </Form.Control>
-              </Form.Group>
-              <SeatPlayerAtTableConfig value={game}
-                                       renderNumberOfTables={this.renderNumberOfTables}
-                                       renderGamePlayers={this.renderGamePlayers}/>
+
+              <SeatingSeatsPerTable value={game}/>
+
+              <SeatingPlayerAtTable value={game}
+                                    renderNumberOfTables={this.renderNumberOfTables}/>
+
               <Modal.Footer>
                 <Button variant="secondary" onClick={() => {
                   store.dispatch({type: TOGGLE_CONFIGURE_SEATING, show: false})

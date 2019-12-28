@@ -24,31 +24,6 @@ class Seating extends React.Component {
     })
   }
 
-  // renderRequests(seatRequests) {
-  //   return seatRequests.map((seatRequest, index) => {
-  //     const { id, playerId, tableNum} = seatRequest;
-  //     return (
-  //       <tr key={id}>
-  //         <td>
-  //           <select defaultValue={playerId}>
-  //             <option value="11">Jane Penn</option>
-  //             <option value="12">Casey Template</option>
-  //           </select>
-  //         </td>
-  //         <td>
-  //           <select defaultValue={tableNum}>
-  //             <option value="1">1</option>
-  //             <option value="2">2</option>
-  //             <option value="3">3</option>
-  //             <option value="4">4</option>
-  //             <option value="5">5</option>
-  //           </select>
-  //         </td>
-  //       </tr>
-  //     )
-  //   })
-  // }
-
   render() {
     const game = this.props.value;
     const {tables} = game;

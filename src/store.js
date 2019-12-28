@@ -57,8 +57,10 @@ const game = {
   ],
   seating: {
     numTables: 1,
-    numSeatsPerTable: 10,
-    tableRequests: [],
+    numSeatsPerTable: [10],
+    tableRequests: [{playerId: null,
+      playerName: null,
+      tableNum: 1}],
     tables: []
   },
   showAddExistingPlayer: false,
