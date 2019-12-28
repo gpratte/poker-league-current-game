@@ -5,38 +5,43 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import _ from "lodash";
 import {
-  ADD_EXISTING_PLAYER_TO_GAME,
-  ADD_TABLE_REQUEST,
-  ENABLE_SEATING_AT_TABLE
+  ENABLE_SEATING_AT_TABLE,
+  UPDATE_PLAYER_TABLE_REQUEST
 } from "../../actions/GameActions";
-import Modal from "react-bootstrap/Modal";
 
 class SeatingPlayerAtTable extends React.Component {
 
-  handleAddAnotherRequest() {
-    const nodes = document.getElementsByClassName('formgroup');
-    console.log(nodes);
+  handlePlayerSelect(e) {
+    // console.log(e.target.options[e.target.selectedIndex].getAttribute('tablerequestindex'))
+    store.dispatch({type: UPDATE_PLAYER_TABLE_REQUEST, playerTableRequest: {
+        gamePlayerId: e.target.value,
+        tableRequestIndex: e.target.options[e.target.selectedIndex].getAttribute('tablerequestindex')
+    }})
   }
 
-  renderGamePlayers(gamePlayers) {
+  handleAddAnotherRequest() {
+    alert('handleAddAnotherRequest')
+  }
+
+  renderGamePlayers(gamePlayers, index) {
     return gamePlayers.map((gamePlayer) => {
       const {
         id, firstName, lastName
       } = gamePlayer;
       return (
-        <option key={id} value={id}>{firstName}{(firstName && lastName) ? ' ' : ''}{lastName}</option>
+        <option key={id} value={id} tablerequestindex={index}>{firstName}{(firstName && lastName) ? ' ' : ''}{lastName}</option>
       )
     })
   }
 
-  renderTableRequests(tableRequests, gamePlayers, renderGamePlayers) {
-    console.log('renderTableRequests ' + tableRequests.length)
-    return _.map(tableRequests, function (tableRequest) {
+  renderTableRequests(tableRequests, gamePlayers, renderGamePlayers, handlePlayerSelect) {
+    return _.map(tableRequests, function (tableRequest, index) {
       return (
-        <Form.Group>
+        <Form.Group key={index}>
           <Form.Label>Seat a Player at a Table</Form.Label>
-          <Form.Control as="select" defaultValue={tableRequest.playerId}>
-            {renderGamePlayers(gamePlayers)}
+          <Form.Control as="select" defaultValue={tableRequest.playerId} onChange={handlePlayerSelect}>
+            <option key={-1} value={-1} tablerequestindex={index}> </option>
+            {renderGamePlayers(gamePlayers, index)}
           </Form.Control>
         </Form.Group>
       )
@@ -51,8 +56,8 @@ class SeatingPlayerAtTable extends React.Component {
     if (playerRequestTable) {
       return (
         <div>
-          {this.renderTableRequests(tableRequests, gamePlayers, this.renderGamePlayers)}
-          <Button variant="outline-secondary" onClick={() => this.handleAddAnotherRequest()}>
+          {this.renderTableRequests(tableRequests, gamePlayers, this.renderGamePlayers, this.handlePlayerSelect)}
+          <Button variant="outline-secondary" onChange={() => this.handleAddAnotherRequest()}>
             Seat Another
           </Button>
         </div>

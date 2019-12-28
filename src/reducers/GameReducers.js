@@ -9,12 +9,18 @@ import {
   DELETE_GAME_PLAYER,
   ENABLE_SEATING_AT_TABLE,
   CHANGE_NUM_TABLES,
-  ADD_TABLE_REQUEST
+  ADD_TABLE_REQUEST,
+  UPDATE_PLAYER_TABLE_REQUEST
 } from '../actions/GameActions'
 import _ from 'lodash';
 
 // Take the game as the parameter
 function reducer(game, action) {
+
+  let playerId = null;
+  let seating = null;
+  let tableRequests = null;
+
   switch (action.type) {
     case TOGGLE_ADD_EXISTING_PLAYER_TO_GAME:
       return Object.assign({}, game, {showAddExistingPlayer: action.show});
@@ -24,7 +30,7 @@ function reducer(game, action) {
       return Object.assign({}, game, {showConfigureSeating: action.show});
     case ADD_EXISTING_PLAYER_TO_GAME:
       // Make sure its a primitive
-      const playerId = parseInt('' + action.player.id);
+      playerId = parseInt('' + action.player.id);
 
       // Find the player in the list of all the league players
       let player = _.find(game.players, {'id': playerId});
@@ -89,13 +95,35 @@ function reducer(game, action) {
           numSeatsPerTable.pop();
         }
       }
-      const seating = Object.assign({}, game.seating, {numTables: action.num}, {numSeatsPerTable: numSeatsPerTable});
+      seating = Object.assign({}, game.seating, {numTables: action.num}, {numSeatsPerTable: numSeatsPerTable});
       return Object.assign({}, game, {seating: seating});
     case ADD_TABLE_REQUEST:
-      const tableRequests = [...game.seating.tableRequests];
+      tableRequests = [...game.seating.tableRequests];
       tableRequests.push(null);
-      const seating2 = Object.assign({}, game.seating, {tableRequests: tableRequests});
-      return Object.assign({}, game, {seating: seating2});
+      seating = Object.assign({}, game.seating, {tableRequests: tableRequests});
+      return Object.assign({}, game, {seating: seating});
+    case UPDATE_PLAYER_TABLE_REQUEST:
+      playerId = parseInt('' + action.playerTableRequest.gamePlayerId);
+      let index = parseInt('' + action.playerTableRequest.tableRequestIndex);
+
+      tableRequests = [...game.seating.tableRequests];
+      tableRequests[index].playerId = playerId;
+
+      // See if there are any entries in the array of table request that does
+      // not have the playerId set
+      let found = false;
+      _.forEach(tableRequests, (tableRequest) => {
+        if (tableRequest.playerId === -1) {
+          found = true;
+        }
+      });
+
+      if (!found) {
+        tableRequests.push({playerId: null, tableNum: 1});
+      }
+
+      seating = Object.assign({}, game.seating, {tableRequests: tableRequests});
+      return Object.assign({}, game, {seating: seating});
     default:
       return game;
   }
