@@ -9,8 +9,7 @@ import {
   DELETE_GAME_PLAYER,
   ENABLE_SEATING_AT_TABLE,
   CHANGE_NUM_TABLES,
-  ADD_TABLE_REQUEST,
-  UPDATE_PLAYER_TABLE_REQUEST
+  ADD_TABLE_REQUEST
 } from '../actions/GameActions'
 import _ from 'lodash';
 
@@ -98,30 +97,9 @@ function reducer(game, action) {
       seating = Object.assign({}, game.seating, {numTables: action.num}, {numSeatsPerTable: numSeatsPerTable});
       return Object.assign({}, game, {seating: seating});
     case ADD_TABLE_REQUEST:
+      console.log('reducer adding a table request')
       tableRequests = [...game.seating.tableRequests];
-      tableRequests.push(null);
-      seating = Object.assign({}, game.seating, {tableRequests: tableRequests});
-      return Object.assign({}, game, {seating: seating});
-    case UPDATE_PLAYER_TABLE_REQUEST:
-      playerId = parseInt('' + action.playerTableRequest.gamePlayerId);
-      let index = parseInt('' + action.playerTableRequest.tableRequestIndex);
-
-      tableRequests = [...game.seating.tableRequests];
-      tableRequests[index].playerId = playerId;
-
-      // See if there are any entries in the array of table request that does
-      // not have the playerId set
-      let found = false;
-      _.forEach(tableRequests, (tableRequest) => {
-        if (tableRequest.playerId === -1) {
-          found = true;
-        }
-      });
-
-      if (!found) {
-        tableRequests.push({playerId: null, tableNum: 1});
-      }
-
+      tableRequests.push({playerId: null, tableNum: 1});
       seating = Object.assign({}, game.seating, {tableRequests: tableRequests});
       return Object.assign({}, game, {seating: seating});
     default:

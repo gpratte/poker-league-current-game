@@ -6,21 +6,13 @@ import Form from 'react-bootstrap/Form';
 import _ from "lodash";
 import {
   ENABLE_SEATING_AT_TABLE,
-  UPDATE_PLAYER_TABLE_REQUEST
+  ADD_TABLE_REQUEST
 } from "../../actions/GameActions";
 
 class SeatingPlayerAtTable extends React.Component {
 
-  handlePlayerSelect(e) {
-    // console.log(e.target.options[e.target.selectedIndex].getAttribute('tablerequestindex'))
-    store.dispatch({type: UPDATE_PLAYER_TABLE_REQUEST, playerTableRequest: {
-        gamePlayerId: e.target.value,
-        tableRequestIndex: e.target.options[e.target.selectedIndex].getAttribute('tablerequestindex')
-    }})
-  }
-
   handleAddAnotherRequest() {
-    alert('handleAddAnotherRequest')
+    store.dispatch({type: ADD_TABLE_REQUEST})
   }
 
   renderGamePlayers(gamePlayers, index) {
@@ -34,12 +26,12 @@ class SeatingPlayerAtTable extends React.Component {
     })
   }
 
-  renderTableRequests(tableRequests, gamePlayers, renderGamePlayers, handlePlayerSelect) {
+  renderTableRequests(tableRequests, gamePlayers, renderGamePlayers) {
     return _.map(tableRequests, function (tableRequest, index) {
       return (
         <Form.Group key={index}>
           <Form.Label>Seat a Player at a Table</Form.Label>
-          <Form.Control as="select" defaultValue={tableRequest.playerId} onChange={handlePlayerSelect}>
+          <Form.Control as="select" defaultValue={tableRequest.playerId}>
             <option key={-1} value={-1} tablerequestindex={index}> </option>
             {renderGamePlayers(gamePlayers, index)}
           </Form.Control>
@@ -56,8 +48,8 @@ class SeatingPlayerAtTable extends React.Component {
     if (playerRequestTable) {
       return (
         <div>
-          {this.renderTableRequests(tableRequests, gamePlayers, this.renderGamePlayers, this.handlePlayerSelect)}
-          <Button variant="outline-secondary" onChange={() => this.handleAddAnotherRequest()}>
+          {this.renderTableRequests(tableRequests, gamePlayers, this.renderGamePlayers)}
+          <Button variant="outline-secondary" onClick={this.handleAddAnotherRequest}>
             Seat Another
           </Button>
         </div>
