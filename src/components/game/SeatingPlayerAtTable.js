@@ -9,10 +9,21 @@ import {
   ADD_TABLE_REQUEST
 } from "../../actions/GameActions";
 
+const fiveTables = [1, 2, 3, 4, 5]
+
 class SeatingPlayerAtTable extends React.Component {
 
+  // This function is in two files, not DRY
   handleAddAnotherRequest() {
     store.dispatch({type: ADD_TABLE_REQUEST})
+  }
+
+  renderNumberOfTables() {
+    return fiveTables.map((num) => {
+      return (
+        <option key={num} value={num}>{num}</option>
+      )
+    })
   }
 
   renderGamePlayers(gamePlayers, index) {
@@ -26,7 +37,7 @@ class SeatingPlayerAtTable extends React.Component {
     })
   }
 
-  renderTableRequests(tableRequests, gamePlayers, renderGamePlayers) {
+  renderTableRequests(tableRequests, gamePlayers, renderGamePlayers, renderNumberOfTables) {
     return _.map(tableRequests, function (tableRequest, index) {
       return (
         <Form.Group key={index}>
@@ -34,6 +45,9 @@ class SeatingPlayerAtTable extends React.Component {
           <Form.Control as="select" defaultValue={tableRequest.playerId}>
             <option key={-1} value={-1} tablerequestindex={index}> </option>
             {renderGamePlayers(gamePlayers, index)}
+          </Form.Control>
+          <Form.Control as="select" defaultValue={tableRequest.tableNum}>
+            {renderNumberOfTables()}
           </Form.Control>
         </Form.Group>
       )
@@ -48,7 +62,8 @@ class SeatingPlayerAtTable extends React.Component {
     if (playerRequestTable) {
       return (
         <div>
-          {this.renderTableRequests(tableRequests, gamePlayers, this.renderGamePlayers)}
+          {this.renderTableRequests(tableRequests, gamePlayers,
+            this.renderGamePlayers, this.renderNumberOfTables)}
           <Button variant="outline-secondary" onClick={this.handleAddAnotherRequest}>
             Seat Another
           </Button>

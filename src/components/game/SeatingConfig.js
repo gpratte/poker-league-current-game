@@ -65,8 +65,7 @@ class SeatingConfig extends React.Component {
 
               <SeatingSeatsPerTable value={game}/>
 
-              <SeatingPlayerAtTable value={game}
-                                    renderNumberOfTables={this.renderNumberOfTables}/>
+              <SeatingPlayerAtTable value={game}/>
 
               <Modal.Footer>
                 <Button variant="secondary" onClick={() => {
