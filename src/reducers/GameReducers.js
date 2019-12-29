@@ -14,6 +14,21 @@ import {
 } from '../actions/GameActions'
 import _ from 'lodash';
 
+// TODO need a place for utility functions
+function getPlayerFullName(player) {
+  let fullName = '';
+  if (player.firstName) {
+    fullName = player.firstName;
+  }
+  if (player.firstName && player.lastName) {
+    fullName += ' ';
+  }
+  if (player.lastName) {
+    fullName += player.lastName;
+  }
+  return fullName;
+}
+
 // Take the game as the parameter
 function reducer(game, action) {
 
@@ -103,8 +118,24 @@ function reducer(game, action) {
       seating = Object.assign({}, game.seating, {tableRequests: tableRequests});
       return Object.assign({}, game, {seating: seating});
     case SUBMIT_TABLE_REQUESTS:
-
-      return Object.assign({}, game, {seating: action.seatingConfig}, {showConfigureSeating: false});
+      // initialize the tables
+      const tables = [];
+      for (let i = 0; i < action.seatingConfig.numTables; i++) {
+        tables.push({number: (i+1), seats: []});
+      }
+      // Add players to the tables
+      let currentTable = 0;
+      _.forEach(game.gamePlayers, function(gamePlayer) {
+        tables[currentTable].seats.push({seatNumber: (tables[currentTable].seats.length+1),
+          tableNumber: currentTable + 1,
+          gamePlayerId: gamePlayer.id,
+          gamePlayerName: getPlayerFullName(gamePlayer)});
+        if (++currentTable === tables.length) {
+          currentTable = 0;
+        }
+      });
+      return Object.assign({}, game, {seating: action.seatingConfig},
+        {showConfigureSeating: false}, {tables: tables});
     default:
       return game;
   }
