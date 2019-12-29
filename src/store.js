@@ -56,69 +56,26 @@ const game = {
     }
   ],
   seating: {
-    id: 12345,
-    gameId: 435,
-    numTables: 2,
-    numSeatPerTable: 8,
-    seatRequests: [
-      {
-        id: 1,
-        playerId: 11,
-        playerName: 'John Turnberry',
-        tableNum: 1
-      },
-      {
-        id: 2,
-        playerId: 12,
-        playerName: 'John Blurr',
-        tableNum: 1
-      }
+    numTables: 1,
+    numSeatsPerTable: [10],
+    tableRequests: [
+      {playerId: null, tableNum: 1}
+      ],
+    tables: [],
+    playerRequestTable: false
+  },
+  seatingCopy: {
+    numTables: 1,
+    numSeatsPerTable: [10],
+    tableRequests: [
+      {playerId: null, tableNum: 1}
     ],
-    tables: [
-      {
-        number: 1,
-        seats: [
-          {
-            tableNumber: 1,
-            seatNumber: 1,
-            gamePlayerName: 'John Doe'
-          },
-          {
-            tableNumber: 1,
-            seatNumber: 3,
-            gamePlayerName: 'John Bubble'
-          },
-          {
-            tableNumber: 1,
-            seatNumber: 5,
-            gamePlayerName: 'John Spritz'
-          }
-        ]
-      },
-      {
-        number: 2,
-        seats: [
-          {
-            tableNumber: 2,
-            seatNumber: 1,
-            gamePlayerName: 'Rich Molah'
-          },
-          {
-            tableNumber: 2,
-            seatNumber: 3,
-            gamePlayerName: 'Rich Dollar'
-          },
-          {
-            tableNumber: 2,
-            seatNumber: 5,
-            gamePlayerName: 'Rich Cashola'
-          }
-        ]
-      }
-    ]
+    tables: [],
+    playerRequestTable: false
   },
   showAddExistingPlayer: false,
   showAddNewPlayer: false,
+  showConfigureSeating: false,
   editGamePlayerId: null
 }
 

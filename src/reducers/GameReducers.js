@@ -1,20 +1,58 @@
 import {
-  ADD_EXISTING_PLAYER_TO_GAME,
-  ADD_NEW_PLAYER_TO_GAME,
   TOGGLE_ADD_EXISTING_PLAYER_TO_GAME,
   TOGGLE_ADD_NEW_PLAYER_TO_GAME,
+  TOGGLE_CONFIGURE_SEATING,
+  ADD_EXISTING_PLAYER_TO_GAME,
+  ADD_NEW_PLAYER_TO_GAME,
   EDIT_GAME_PLAYER,
   UPDATE_GAME_PLAYER,
-  DELETE_GAME_PLAYER
+  DELETE_GAME_PLAYER,
+  ENABLE_SEATING_AT_TABLE,
+  CHANGE_NUM_TABLES,
+  ADD_TABLE_REQUEST,
+  SUBMIT_TABLE_REQUESTS
 } from '../actions/GameActions'
 import _ from 'lodash';
 
+// TODO need a place for utility functions
+function getPlayerFullName(player) {
+  let fullName = '';
+  if (player.firstName) {
+    fullName = player.firstName;
+  }
+  if (player.firstName && player.lastName) {
+    fullName += ' ';
+  }
+  if (player.lastName) {
+    fullName += player.lastName;
+  }
+  return fullName;
+}
+
 // Take the game as the parameter
 function reducer(game, action) {
+
+  let playerId = null;
+  let seating = null;
+  let tableRequests = null;
+  let newGame = null;
+
   switch (action.type) {
+    case TOGGLE_ADD_EXISTING_PLAYER_TO_GAME:
+      return Object.assign({}, game, {showAddExistingPlayer: action.show});
+    case TOGGLE_ADD_NEW_PLAYER_TO_GAME:
+      return Object.assign({}, game, {showAddNewPlayer: action.show});
+    case TOGGLE_CONFIGURE_SEATING:
+      newGame = Object.assign({}, game,
+        {seatingCopy: game.seating},
+        {showConfigureSeating: action.show});
+      if (game.seating.tableRequests.length > 0) {
+        newGame.seatingCopy.playerRequestTable = true;
+      }
+      return newGame;
     case ADD_EXISTING_PLAYER_TO_GAME:
       // Make sure its a primitive
-      const playerId = parseInt('' + action.player.id);
+      playerId = parseInt('' + action.player.id);
 
       // Find the player in the list of all the league players
       let player = _.find(game.players, {'id': playerId});
@@ -37,10 +75,6 @@ function reducer(game, action) {
       let gameWithNewPlayer = Object.assign({}, game, {showAddNewPlayer: false});
       gameWithNewPlayer.gamePlayers.push(newPlayer);
       return gameWithNewPlayer;
-    case TOGGLE_ADD_EXISTING_PLAYER_TO_GAME:
-      return Object.assign({}, game, {showAddExistingPlayer: action.show});
-    case TOGGLE_ADD_NEW_PLAYER_TO_GAME:
-      return Object.assign({}, game, {showAddNewPlayer: action.show});
     case EDIT_GAME_PLAYER:
       return Object.assign({}, game, {editGamePlayerId: action.id});
     case UPDATE_GAME_PLAYER:
@@ -50,7 +84,7 @@ function reducer(game, action) {
       const gamePlayerId = parseInt('' + action.gamePlayer.id);
       const finish = parseInt('' + action.gamePlayer.finish);
 
-      const indexOfGamePlayer = _.findIndex(gameWithUpdatedPlayer.gamePlayers, { 'id': gamePlayerId });
+      const indexOfGamePlayer = _.findIndex(gameWithUpdatedPlayer.gamePlayers, {'id': gamePlayerId});
       const gamePlayerToUpdate = gameWithUpdatedPlayer.gamePlayers[indexOfGamePlayer];
       gamePlayerToUpdate['buyInCollected'] = action.gamePlayer.buyInCollected ? game.buyInCost : null;
       gamePlayerToUpdate['annualTocCollected'] = action.gamePlayer.annualTocCollected ? game.annualTocCost : null;
@@ -62,10 +96,56 @@ function reducer(game, action) {
       return gameWithUpdatedPlayer;
     case DELETE_GAME_PLAYER:
       let gameWithDeletedPlayer = Object.assign({}, game, {editGamePlayerId: null});
-      _.remove(gameWithDeletedPlayer.gamePlayers, function(gp) {
+      _.remove(gameWithDeletedPlayer.gamePlayers, function (gp) {
         return gp.id === action.id;
       });
       return gameWithDeletedPlayer;
+    case ENABLE_SEATING_AT_TABLE:
+      seating = Object.assign({}, game.seatingCopy, {playerRequestTable: true})
+      return Object.assign({}, game, {seatingCopy: seating});
+    case CHANGE_NUM_TABLES:
+      const numSeatsPerTable = [...game.seatingCopy.numSeatsPerTable];
+      let delta = action.num - numSeatsPerTable.length;
+      let deltaPositive = true;
+      if (delta < 0) {
+        deltaPositive = false;
+        delta = Math.abs(delta);
+      }
+      for (let i = 0; i < delta; ++i) {
+        if (deltaPositive) {
+          numSeatsPerTable.push(10);
+        } else {
+          numSeatsPerTable.pop();
+        }
+      }
+      seating = Object.assign({}, game.seatingCopy,
+        {numTables: action.num},
+        {numSeatsPerTable: numSeatsPerTable});
+      return Object.assign({}, game, {seatingCopy: seating});
+    case ADD_TABLE_REQUEST:
+      tableRequests = [...game.seatingCopy.tableRequests];
+      tableRequests.push({playerId: null, tableNum: 1});
+      seating = Object.assign({}, game.seatingCopy, {tableRequests: tableRequests});
+      return Object.assign({}, game, {seatingCopy: seating});
+    case SUBMIT_TABLE_REQUESTS:
+      // initialize the tables
+      const tables = [];
+      for (let i = 0; i < action.seatingConfig.numTables; i++) {
+        tables.push({number: (i+1), seats: []});
+      }
+      // Add players to the tables
+      let currentTable = 0;
+      _.forEach(game.gamePlayers, function(gamePlayer) {
+        tables[currentTable].seats.push({seatNumber: (tables[currentTable].seats.length+1),
+          tableNumber: currentTable + 1,
+          gamePlayerId: gamePlayer.id,
+          gamePlayerName: getPlayerFullName(gamePlayer)});
+        if (++currentTable === tables.length) {
+          currentTable = 0;
+        }
+      });
+      return Object.assign({}, game, {seating: action.seatingConfig},
+        {showConfigureSeating: false}, {tables: tables});
     default:
       return game;
   }
