@@ -8,7 +8,8 @@ import SeatingPlayerAtTable from './SeatingPlayerAtTable'
 import SeatingSeatsPerTable from './SeatingSeatsPerTable'
 import {
   TOGGLE_CONFIGURE_SEATING,
-  CHANGE_NUM_TABLES
+  CHANGE_NUM_TABLES,
+  SUBMIT_TABLE_REQUESTS
 } from '../../actions/GameActions'
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -31,17 +32,39 @@ class SeatingConfig extends React.Component {
 
   requestSeating = (e) => {
     e.preventDefault();
-    console.log('request seating')
-    // store.dispatch({type: UPDATE_GAME_PLAYER, gamePlayer: {
-    //     id: e.target.elements.gamePlayerId.value,
-    //     buyInCollected: e.target.elements.buyInId.checked,
-    //     annualTocCollected: e.target.elements.tocId.checked,
-    //     quarterlyTocCollected: e.target.elements.qtocId.checked,
-    //     rebuyAddOnCollected: e.target.elements.rebuyId.checked,
-    //     knockedOut: e.target.elements.knockedOutId.checked,
-    //     finish: e.target.elements.finishId.value,
-    //     chop: e.target.elements.chopId.value,
-    //   }})
+    let valueAsNumber = parseInt('' + e.target.elements.tablesId.value);
+    const seatingConfig = {numTables: valueAsNumber};
+
+    seatingConfig['numSeatsPerTable'] = [];
+    let index = 0;
+    while(true) {
+      if (e.target.elements['seatsId-'+index]) {
+        valueAsNumber = parseInt('' + e.target.elements['seatsId-'+index].value);
+        seatingConfig.numSeatsPerTable.push(valueAsNumber);
+        ++index;
+      } else {
+        break;
+      }
+    }
+
+    seatingConfig['tableRequests'] = []
+    index = 0;
+    while(true) {
+      if (e.target.elements['playerRequestId-'+index]) {
+        valueAsNumber = parseInt('' + e.target.elements['playerRequestId-'+index].value);
+        if (valueAsNumber !== -1) {
+          let tableRequest = {playerId: valueAsNumber}
+          valueAsNumber = parseInt('' + e.target.elements['playerTableRequestId-'+index].value);
+          tableRequest['tableNum'] = valueAsNumber;
+          seatingConfig.tableRequests.push(tableRequest);
+        }
+        ++index;
+      } else {
+        break;
+      }
+    }
+
+    store.dispatch({type: SUBMIT_TABLE_REQUESTS, seatingConfig})
   }
 
   render() {

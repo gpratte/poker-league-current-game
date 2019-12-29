@@ -14,6 +14,7 @@ export const DELETE_GAME_PLAYER = 'DELETE_GAME_PLAYER'
 export const ENABLE_SEATING_AT_TABLE = 'ENABLE_SEATING_AT_TABLE'
 export const CHANGE_NUM_TABLES = 'CHANGE_NUM_TABLES'
 export const ADD_TABLE_REQUEST = 'ADD_TABLE_REQUEST'
+export const SUBMIT_TABLE_REQUESTS = 'SUBMIT_TABLE_REQUESTS'
 
 /*
  * other constants
@@ -56,4 +57,7 @@ export function changeNumTables(num) {
 }
 export function addTableRequest() {
   return { type: ADD_TABLE_REQUEST}
+}
+export function submitTableRequests(seatingConfig) {
+  return { type: SUBMIT_TABLE_REQUESTS, seatingConfig}
 }

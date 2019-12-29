@@ -9,7 +9,8 @@ import {
   DELETE_GAME_PLAYER,
   ENABLE_SEATING_AT_TABLE,
   CHANGE_NUM_TABLES,
-  ADD_TABLE_REQUEST
+  ADD_TABLE_REQUEST,
+  SUBMIT_TABLE_REQUESTS
 } from '../actions/GameActions'
 import _ from 'lodash';
 
@@ -97,11 +98,13 @@ function reducer(game, action) {
       seating = Object.assign({}, game.seating, {numTables: action.num}, {numSeatsPerTable: numSeatsPerTable});
       return Object.assign({}, game, {seating: seating});
     case ADD_TABLE_REQUEST:
-      console.log('reducer adding a table request')
       tableRequests = [...game.seating.tableRequests];
       tableRequests.push({playerId: null, tableNum: 1});
       seating = Object.assign({}, game.seating, {tableRequests: tableRequests});
       return Object.assign({}, game, {seating: seating});
+    case SUBMIT_TABLE_REQUESTS:
+
+      return Object.assign({}, game, {seating: action.seatingConfig}, {showConfigureSeating: false});
     default:
       return game;
   }

@@ -23,7 +23,7 @@ class SeatingSeatsPerTable extends React.Component {
         <Form.Group key={index} as={Row} className="align-items-center">
           <Form.Label>&nbsp;&nbsp;Seats for Table {index + 1}</Form.Label>
           <Col>
-            <Form.Control as="select" defaultValue={numSeats} id={'seatsId' + index + 1}>
+            <Form.Control as="select" defaultValue={numSeats} id={'seatsId-' + index}>
               {renderNumberOfSeatsPerTable()}
             </Form.Control>
           </Col>

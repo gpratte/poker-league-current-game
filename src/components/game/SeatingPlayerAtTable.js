@@ -42,11 +42,11 @@ class SeatingPlayerAtTable extends React.Component {
       return (
         <Form.Group key={index}>
           <Form.Label>Seat a Player at a Table</Form.Label>
-          <Form.Control as="select" defaultValue={tableRequest.playerId}>
+          <Form.Control as="select" defaultValue={tableRequest.playerId} id={'playerRequestId-' + index}>
             <option key={-1} value={-1} tablerequestindex={index}> </option>
             {renderGamePlayers(gamePlayers, index)}
           </Form.Control>
-          <Form.Control as="select" defaultValue={tableRequest.tableNum}>
+          <Form.Control as="select" defaultValue={tableRequest.tableNum} id={'playerTableRequestId-' + index}>
             {renderNumberOfTables()}
           </Form.Control>
         </Form.Group>
