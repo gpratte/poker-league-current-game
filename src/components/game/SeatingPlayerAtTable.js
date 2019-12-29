@@ -56,8 +56,8 @@ class SeatingPlayerAtTable extends React.Component {
 
   render() {
     const game = this.props.value;
-    const {gamePlayers, playerRequestTable} = game;
-    const {tableRequests} = game.seating;
+    const {gamePlayers} = game;
+    const {tableRequests, playerRequestTable} = game.seatingCopy;
 
     if (playerRequestTable) {
       return (

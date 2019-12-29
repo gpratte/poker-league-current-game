@@ -34,7 +34,7 @@ class SeatingSeatsPerTable extends React.Component {
 
   render() {
     const game = this.props.value;
-    const {numSeatsPerTable} = game.seating;
+    const {numSeatsPerTable} = game.seatingCopy;
 
     return (
       <div>

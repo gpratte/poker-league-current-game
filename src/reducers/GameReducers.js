@@ -35,6 +35,7 @@ function reducer(game, action) {
   let playerId = null;
   let seating = null;
   let tableRequests = null;
+  let newGame = null;
 
   switch (action.type) {
     case TOGGLE_ADD_EXISTING_PLAYER_TO_GAME:
@@ -42,7 +43,13 @@ function reducer(game, action) {
     case TOGGLE_ADD_NEW_PLAYER_TO_GAME:
       return Object.assign({}, game, {showAddNewPlayer: action.show});
     case TOGGLE_CONFIGURE_SEATING:
-      return Object.assign({}, game, {showConfigureSeating: action.show});
+      newGame = Object.assign({}, game,
+        {seatingCopy: game.seating},
+        {showConfigureSeating: action.show});
+      if (game.seating.tableRequests.length > 0) {
+        newGame.seatingCopy.playerRequestTable = true;
+      }
+      return newGame;
     case ADD_EXISTING_PLAYER_TO_GAME:
       // Make sure its a primitive
       playerId = parseInt('' + action.player.id);
@@ -94,9 +101,10 @@ function reducer(game, action) {
       });
       return gameWithDeletedPlayer;
     case ENABLE_SEATING_AT_TABLE:
-      return Object.assign({}, game, {playerRequestTable: true});
+      seating = Object.assign({}, game.seatingCopy, {playerRequestTable: true})
+      return Object.assign({}, game, {seatingCopy: seating});
     case CHANGE_NUM_TABLES:
-      const numSeatsPerTable = [...game.seating.numSeatsPerTable];
+      const numSeatsPerTable = [...game.seatingCopy.numSeatsPerTable];
       let delta = action.num - numSeatsPerTable.length;
       let deltaPositive = true;
       if (delta < 0) {
@@ -110,13 +118,15 @@ function reducer(game, action) {
           numSeatsPerTable.pop();
         }
       }
-      seating = Object.assign({}, game.seating, {numTables: action.num}, {numSeatsPerTable: numSeatsPerTable});
-      return Object.assign({}, game, {seating: seating});
+      seating = Object.assign({}, game.seatingCopy,
+        {numTables: action.num},
+        {numSeatsPerTable: numSeatsPerTable});
+      return Object.assign({}, game, {seatingCopy: seating});
     case ADD_TABLE_REQUEST:
-      tableRequests = [...game.seating.tableRequests];
+      tableRequests = [...game.seatingCopy.tableRequests];
       tableRequests.push({playerId: null, tableNum: 1});
-      seating = Object.assign({}, game.seating, {tableRequests: tableRequests});
-      return Object.assign({}, game, {seating: seating});
+      seating = Object.assign({}, game.seatingCopy, {tableRequests: tableRequests});
+      return Object.assign({}, game, {seatingCopy: seating});
     case SUBMIT_TABLE_REQUESTS:
       // initialize the tables
       const tables = [];

@@ -69,7 +69,7 @@ class SeatingConfig extends React.Component {
 
   render() {
     const game = this.props.value;
-    const {numTables} = game.seating;
+    const {numTables} = game.seatingCopy;
 
     return (
       <div>
