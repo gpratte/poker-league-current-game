@@ -10,6 +10,29 @@ The following shows what I did step by step.
 
 Each step can be found on the cooresponding branch.
 
+## step 12 seating
+
+This was by far the most complicated UI work because if the dynamic way the UI 
+changes (i.e. showing/hiding UI components).
+
+When changing the number of tables then the same number of pulldown lists for the number of seats is shown.
+For example 
+* for 1 table one list for the number of seats is shown 
+* for 2 tables two lists for the number of seats are shown
+* ...
+
+Also, there is a button so show a UI component for a player to request a table. 
+Another button will show another UI component for another player to request a table.
+Et cetera.
+
+To make the UI dynamically show/hide components the store is used (we already have
+seen this for showing/hiding modal dialogs).
+
+The tricky thing was to make a copy of the seating for the UI to use. The UI
+changes the copy in the store. That way if the modal dialog is cancelled it 
+does not affect the "real" seating values in the store.
+ 
+
 ## step 11 remove clock
 Removed the clock react component and the clock in the store.
 
