@@ -45,7 +45,7 @@ class Seating extends React.Component {
                 onClick={() => store.dispatch({type: TOGGLE_CONFIGURE_SEATING, show: true})}>
           Configure Seating
         </Button>
-        <SeatingConfig value={game}/>
+        <SeatingConfig game={game}/>
       </div>
     );
   }

@@ -61,17 +61,7 @@ const game = {
     tableRequests: [
       {playerId: null, tableNum: 1}
       ],
-    tables: [],
-    playerRequestTable: false
-  },
-  seatingCopy: {
-    numTables: 1,
-    numSeatsPerTable: [10],
-    tableRequests: [
-      {playerId: null, tableNum: 1}
-    ],
-    tables: [],
-    playerRequestTable: false
+    tables: []
   },
   showAddExistingPlayer: false,
   showAddNewPlayer: false,

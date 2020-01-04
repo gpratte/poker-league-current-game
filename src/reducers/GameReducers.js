@@ -8,7 +8,6 @@ import {
   UPDATE_GAME_PLAYER,
   DELETE_GAME_PLAYER,
   ENABLE_SEATING_AT_TABLE,
-  CHANGE_NUM_TABLES,
   ADD_TABLE_REQUEST,
   SUBMIT_TABLE_REQUESTS
 } from '../actions/GameActions'
@@ -35,7 +34,6 @@ function reducer(game, action) {
   let playerId = null;
   let seating = null;
   let tableRequests = null;
-  let newGame = null;
 
   switch (action.type) {
     case TOGGLE_ADD_EXISTING_PLAYER_TO_GAME:
@@ -43,13 +41,8 @@ function reducer(game, action) {
     case TOGGLE_ADD_NEW_PLAYER_TO_GAME:
       return Object.assign({}, game, {showAddNewPlayer: action.show});
     case TOGGLE_CONFIGURE_SEATING:
-      newGame = Object.assign({}, game,
-        {seatingCopy: game.seating},
+      return Object.assign({}, game,
         {showConfigureSeating: action.show});
-      if (game.seating.tableRequests.length > 0) {
-        newGame.seatingCopy.playerRequestTable = true;
-      }
-      return newGame;
     case ADD_EXISTING_PLAYER_TO_GAME:
       // Make sure its a primitive
       playerId = parseInt('' + action.player.id);
@@ -102,25 +95,6 @@ function reducer(game, action) {
       return gameWithDeletedPlayer;
     case ENABLE_SEATING_AT_TABLE:
       seating = Object.assign({}, game.seatingCopy, {playerRequestTable: true})
-      return Object.assign({}, game, {seatingCopy: seating});
-    case CHANGE_NUM_TABLES:
-      const numSeatsPerTable = [...game.seatingCopy.numSeatsPerTable];
-      let delta = action.num - numSeatsPerTable.length;
-      let deltaPositive = true;
-      if (delta < 0) {
-        deltaPositive = false;
-        delta = Math.abs(delta);
-      }
-      for (let i = 0; i < delta; ++i) {
-        if (deltaPositive) {
-          numSeatsPerTable.push(10);
-        } else {
-          numSeatsPerTable.pop();
-        }
-      }
-      seating = Object.assign({}, game.seatingCopy,
-        {numTables: action.num},
-        {numSeatsPerTable: numSeatsPerTable});
       return Object.assign({}, game, {seatingCopy: seating});
     case ADD_TABLE_REQUEST:
       tableRequests = [...game.seatingCopy.tableRequests];

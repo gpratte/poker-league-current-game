@@ -13,6 +13,21 @@ const fiveTables = [1, 2, 3, 4, 5]
 
 class SeatingPlayerAtTable extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    let playerRequestTable = false;
+    _.forEach(this.props.seating.tableRequests, (tableRequest) => {
+      if(tableRequest.playerId) {
+        playerRequestTable = true;
+      }
+    });
+
+    this.state = {
+      playerRequestTable: playerRequestTable
+    };
+  }
+
   // This function is in two files, not DRY
   handleAddAnotherRequest() {
     store.dispatch({type: ADD_TABLE_REQUEST})
@@ -55,15 +70,13 @@ class SeatingPlayerAtTable extends React.Component {
   }
 
   render() {
-    const game = this.props.value;
-    const {gamePlayers} = game;
-    const {tableRequests, playerRequestTable} = game.seatingCopy;
-
-    if (playerRequestTable) {
+    if (this.state.playerRequestTable) {
       return (
         <div>
-          {this.renderTableRequests(tableRequests, gamePlayers,
-            this.renderGamePlayers, this.renderNumberOfTables)}
+          {this.renderTableRequests(this.props.seating.tableRequests,
+            this.props.gamePlayers,
+            this.renderGamePlayers,
+            this.renderNumberOfTables)}
           <Button variant="outline-secondary" onClick={this.handleAddAnotherRequest}>
             Seat Another
           </Button>

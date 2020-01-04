@@ -8,7 +8,6 @@ import SeatingPlayerAtTable from './SeatingPlayerAtTable'
 import SeatingSeatsPerTable from './SeatingSeatsPerTable'
 import {
   TOGGLE_CONFIGURE_SEATING,
-  CHANGE_NUM_TABLES,
   SUBMIT_TABLE_REQUESTS
 } from '../../actions/GameActions'
 import Row from "react-bootstrap/Row";
@@ -17,6 +16,19 @@ import Col from "react-bootstrap/Col";
 const fiveTables = [1, 2, 3, 4, 5]
 
 class SeatingConfig extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      gamePlayers: props.game.gamePlayers,
+      seating: Object.assign({}, props.game.seating,
+        {numSeatsPerTable: [...props.game.seating.numSeatsPerTable]},
+        {tableRequests: [...props.game.seating.tableRequests]},
+        {tables: [...props.game.seating.tables]})
+    };
+    this.handleChangeSeatsPerTables = this.handleChangeSeatsPerTables.bind(this);
+  }
+
 
   renderNumberOfTables() {
     return fiveTables.map((num) => {
@@ -27,7 +39,35 @@ class SeatingConfig extends React.Component {
   }
 
   handleChangeNumTables(e) {
-    store.dispatch({type: CHANGE_NUM_TABLES, num: e.target.value});
+    const newNumSeatsPerTable = [...this.state.seating.numSeatsPerTable];
+
+    const newNumTables = parseInt('' + e.target.value);
+    let delta = newNumTables - this.state.seating.numTables;
+    let deltaPositive = true;
+    if (delta < 0) {
+      deltaPositive = false;
+      delta = Math.abs(delta);
+    }
+    for (let i = 0; i < delta; ++i) {
+      if (deltaPositive) {
+        newNumSeatsPerTable.push(10);
+      } else {
+        newNumSeatsPerTable.pop();
+      }
+    }
+    const newSeating = (Object.assign({}, this.state.seating,
+      {numTables: newNumTables},
+      {numSeatsPerTable: newNumSeatsPerTable}))
+    this.setState({seating: newSeating})
+  }
+
+  handleChangeSeatsPerTables(e, tableNum) {
+    const numSeats = parseInt('' + e.target.value);
+    const newNumSeatsPerTable = [...this.state.seating.numSeatsPerTable];
+    newNumSeatsPerTable[tableNum] = numSeats;
+    const newSeating = (Object.assign({}, this.state.seating,
+      {numSeatsPerTable: newNumSeatsPerTable}))
+    this.setState({seating: newSeating})
   }
 
   requestSeating = (e) => {
@@ -68,27 +108,27 @@ class SeatingConfig extends React.Component {
   }
 
   render() {
-    const game = this.props.value;
-    const {numTables} = game.seatingCopy;
-
     return (
       <div>
-        <Modal show={this.props.value.showConfigureSeating}
+        <Modal show={this.props.game.showConfigureSeating}
                onHide={() => store.dispatch({type: TOGGLE_CONFIGURE_SEATING, show: false})}>
           <Modal.Body>
             <Form onSubmit={this.requestSeating}>
               <Form.Group as={Row} className="align-items-center">
                 <Form.Label>&nbsp;&nbsp;Number of Tables</Form.Label>
                 <Col>
-                  <Form.Control as="select" defaultValue={numTables} id="tablesId" onChange={this.handleChangeNumTables}>
+                  <Form.Control as="select"
+                                defaultValue={this.state.seating.numTables}
+                                id="tablesId"
+                                onChange={(e) => this.handleChangeNumTables(e)}>
                     {this.renderNumberOfTables()}
                   </Form.Control>
                 </Col>
               </Form.Group>
 
-              <SeatingSeatsPerTable value={game}/>
+              <SeatingSeatsPerTable seating={this.state.seating} handleChangeSeatsPerTables={this.handleChangeSeatsPerTables}/>
 
-              <SeatingPlayerAtTable value={game}/>
+              <SeatingPlayerAtTable gamePlayers={this.state.gamePlayers} seating={this.state.seating}/>
 
               <Modal.Footer>
                 <Button variant="secondary" onClick={() => {
