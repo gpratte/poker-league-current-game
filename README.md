@@ -10,6 +10,15 @@ The following shows what I did step by step.
 
 Each step can be found on the cooresponding branch.
 
+## step 13 react state instead of redux
+Changed the SeatingConfig, SeatingSeatsPerTable and SeatingPlayerAtTable react components 
+to use the react state instead of the redux store while using the UI to configure
+the seating (number of tables, number of seats at a table and players requesting to 
+sit at a certain table). 
+
+When the SeatingConfig modal dialog is submitted the react state is used to call the 
+redux store to upsert the seating. 
+
 ## step 12 seating
 
 This was by far the most complicated UI work because if the dynamic way the UI 
