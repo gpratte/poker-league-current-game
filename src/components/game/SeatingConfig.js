@@ -8,10 +8,11 @@ import SeatingPlayerAtTable from './SeatingPlayerAtTable'
 import SeatingSeatsPerTable from './SeatingSeatsPerTable'
 import {
   TOGGLE_CONFIGURE_SEATING,
-  SUBMIT_TABLE_REQUESTS
+  SUBMIT_SEATING
 } from '../../actions/GameActions'
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import _ from 'lodash';
 
 const fiveTables = [1, 2, 3, 4, 5]
 
@@ -27,6 +28,9 @@ class SeatingConfig extends React.Component {
         {tables: [...props.game.seating.tables]})
     };
     this.handleChangeSeatsPerTables = this.handleChangeSeatsPerTables.bind(this);
+    this.handleAddAnotherRequest = this.handleAddAnotherRequest.bind(this);
+    this.handlePlayerRequesting = this.handlePlayerRequesting.bind(this);
+    this.handleTableRequesting = this.handleTableRequesting.bind(this);
   }
 
 
@@ -70,41 +74,43 @@ class SeatingConfig extends React.Component {
     this.setState({seating: newSeating})
   }
 
+  handleAddAnotherRequest() {
+    const tableRequests = [...this.state.seating.tableRequests];
+    tableRequests.push({playerId: null, tableNum: 1});
+    const newSeating = (Object.assign({}, this.state.seating,
+      {tableRequests: tableRequests}))
+    this.setState({seating: newSeating})
+  }
+
+  handlePlayerRequesting(e, requestNum) {
+    const tableRequests = [...this.state.seating.tableRequests];
+    tableRequests[requestNum].playerId = parseInt('' + e.target.value);
+    const newSeating = (Object.assign({}, this.state.seating,
+      {tableRequests: tableRequests}))
+    this.setState({seating: newSeating})
+  }
+
+  handleTableRequesting(e, requestNum) {
+    const tableRequests = [...this.state.seating.tableRequests];
+    tableRequests[requestNum].tableNum = parseInt('' + e.target.value);
+    const newSeating = (Object.assign({}, this.state.seating,
+      {tableRequests: tableRequests}))
+    this.setState({seating: newSeating})
+  }
+
   requestSeating = (e) => {
     e.preventDefault();
-    let valueAsNumber = parseInt('' + e.target.elements.tablesId.value);
-    const seatingConfig = {numTables: valueAsNumber};
-
-    seatingConfig['numSeatsPerTable'] = [];
-    let index = 0;
-    while(true) {
-      if (e.target.elements['seatsId-'+index]) {
-        valueAsNumber = parseInt('' + e.target.elements['seatsId-'+index].value);
-        seatingConfig.numSeatsPerTable.push(valueAsNumber);
-        ++index;
-      } else {
-        break;
-      }
-    }
+    const seatingConfig = {numTables: this.state.seating.numSeatsPerTable.length};
+    seatingConfig['numSeatsPerTable'] = [...this.state.seating.numSeatsPerTable];
 
     seatingConfig['tableRequests'] = []
-    index = 0;
-    while(true) {
-      if (e.target.elements['playerRequestId-'+index]) {
-        valueAsNumber = parseInt('' + e.target.elements['playerRequestId-'+index].value);
-        if (valueAsNumber !== -1) {
-          let tableRequest = {playerId: valueAsNumber}
-          valueAsNumber = parseInt('' + e.target.elements['playerTableRequestId-'+index].value);
-          tableRequest['tableNum'] = valueAsNumber;
-          seatingConfig.tableRequests.push(tableRequest);
-        }
-        ++index;
-      } else {
-        break;
+    _.forEach(this.state.seating.tableRequests, function(tableRequest) {
+      if (tableRequest.playerId) {
+        seatingConfig.tableRequests.push(tableRequest);
       }
-    }
+    })
 
-    store.dispatch({type: SUBMIT_TABLE_REQUESTS, seatingConfig})
+    store.dispatch({type: SUBMIT_SEATING, seatingConfig})
   }
 
   render() {
@@ -126,9 +132,14 @@ class SeatingConfig extends React.Component {
                 </Col>
               </Form.Group>
 
-              <SeatingSeatsPerTable seating={this.state.seating} handleChangeSeatsPerTables={this.handleChangeSeatsPerTables}/>
+              <SeatingSeatsPerTable seating={this.state.seating}
+                                    handleChangeSeatsPerTables={this.handleChangeSeatsPerTables}/>
 
-              <SeatingPlayerAtTable gamePlayers={this.state.gamePlayers} seating={this.state.seating}/>
+              <SeatingPlayerAtTable gamePlayers={this.state.gamePlayers}
+                                    seating={this.state.seating}
+                                    handleAddAnotherRequest={this.handleAddAnotherRequest}
+                                    handlePlayerRequesting={this.handlePlayerRequesting}
+                                    handleTableRequesting={this.handleTableRequesting}/>
 
               <Modal.Footer>
                 <Button variant="secondary" onClick={() => {
