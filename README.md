@@ -17,7 +17,13 @@ the seating (number of tables, number of seats at a table and players requesting
 sit at a certain table). 
 
 When the SeatingConfig modal dialog is submitted the react state is used to call the 
-redux store to upsert the seating. 
+redux store to upsert the seating.
+
+Had to force the SeatingConfig modal dialog component to remount when it is 
+show so that the constructor can set the state. Did this by adding a _key_ 
+which changes when it is time for the modal dialog to appear.
+```<SeatingConfig key={game.showConfigureSeatingKey} game={game}/>```
+
 
 ## step 12 seating
 
