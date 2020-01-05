@@ -17,13 +17,16 @@ class SeatingSeatsPerTable extends React.Component {
     })
   }
 
-  renderSeatsPerTable(numSeatsPerTable, renderNumberOfSeatsPerTable) {
+  renderSeatsPerTable(numSeatsPerTable, renderNumberOfSeatsPerTable, handleChangeSeatsPerTables) {
     return _.map(numSeatsPerTable, function (numSeats, index) {
       return (
         <Form.Group key={index} as={Row} className="align-items-center">
           <Form.Label>&nbsp;&nbsp;Seats for Table {index + 1}</Form.Label>
           <Col>
-            <Form.Control as="select" defaultValue={numSeats} id={'seatsId-' + index}>
+            <Form.Control as="select"
+                          defaultValue={numSeats}
+                          id={'seatsId-' + index}
+                          onChange={(e) => handleChangeSeatsPerTables(e, index)}>
               {renderNumberOfSeatsPerTable()}
             </Form.Control>
           </Col>
@@ -33,12 +36,11 @@ class SeatingSeatsPerTable extends React.Component {
   }
 
   render() {
-    const game = this.props.value;
-    const {numSeatsPerTable} = game.seatingCopy;
+    const {numSeatsPerTable} = this.props.seating;
 
     return (
       <div>
-        {this.renderSeatsPerTable(numSeatsPerTable, this.renderNumberOfSeatsPerTable)}
+        {this.renderSeatsPerTable(numSeatsPerTable, this.renderNumberOfSeatsPerTable, this.props.handleChangeSeatsPerTables)}
       </div>
     );
   }

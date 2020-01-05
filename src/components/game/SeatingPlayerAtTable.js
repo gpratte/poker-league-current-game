@@ -1,21 +1,30 @@
 import React from 'react'
 import './GamePlayers.css'
-import store from '../../store'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import _ from "lodash";
-import {
-  ENABLE_SEATING_AT_TABLE,
-  ADD_TABLE_REQUEST
-} from "../../actions/GameActions";
 
 const fiveTables = [1, 2, 3, 4, 5]
 
 class SeatingPlayerAtTable extends React.Component {
 
-  // This function is in two files, not DRY
-  handleAddAnotherRequest() {
-    store.dispatch({type: ADD_TABLE_REQUEST})
+  constructor(props) {
+    super(props);
+
+    let enableSeatingRequests = false;
+    _.forEach(this.props.seating.tableRequests, (tableRequest) => {
+      if (tableRequest.playerId) {
+        enableSeatingRequests = true;
+      }
+    });
+
+    this.state = {
+      enableSeatingRequests: enableSeatingRequests
+    };
+  }
+
+  handleEnablingSeatingRequests() {
+    this.setState(Object.assign({enableSeatingRequests: true}))
   }
 
   renderNumberOfTables() {
@@ -32,21 +41,28 @@ class SeatingPlayerAtTable extends React.Component {
         id, firstName, lastName
       } = gamePlayer;
       return (
-        <option key={id} value={id} tablerequestindex={index}>{firstName}{(firstName && lastName) ? ' ' : ''}{lastName}</option>
+        <option key={id} value={id}
+                tablerequestindex={index}>{firstName}{(firstName && lastName) ? ' ' : ''}{lastName}</option>
       )
     })
   }
 
-  renderTableRequests(tableRequests, gamePlayers, renderGamePlayers, renderNumberOfTables) {
+  renderTableRequests(tableRequests, gamePlayers, renderGamePlayers, renderNumberOfTables, handlePlayerRequesting, handleTableRequesting) {
     return _.map(tableRequests, function (tableRequest, index) {
       return (
         <Form.Group key={index}>
           <Form.Label>Seat a Player at a Table</Form.Label>
-          <Form.Control as="select" defaultValue={tableRequest.playerId} id={'playerRequestId-' + index}>
-            <option key={-1} value={-1} tablerequestindex={index}> </option>
+          <Form.Control as="select"
+                        defaultValue={tableRequest.playerId}
+                        id={'playerRequestId-' + index}
+                        onChange={(e) => handlePlayerRequesting(e, index)}>
+            <option key={-1} value={-1} tablerequestindex={index}></option>
             {renderGamePlayers(gamePlayers, index)}
           </Form.Control>
-          <Form.Control as="select" defaultValue={tableRequest.tableNum} id={'playerTableRequestId-' + index}>
+          <Form.Control as="select"
+                        defaultValue={tableRequest.tableNum}
+                        id={'playerTableRequestId-' + index}
+                        onChange={(e) => handleTableRequesting(e, index)}>
             {renderNumberOfTables()}
           </Form.Control>
         </Form.Group>
@@ -55,16 +71,16 @@ class SeatingPlayerAtTable extends React.Component {
   }
 
   render() {
-    const game = this.props.value;
-    const {gamePlayers} = game;
-    const {tableRequests, playerRequestTable} = game.seatingCopy;
-
-    if (playerRequestTable) {
+    if (this.state.enableSeatingRequests) {
       return (
         <div>
-          {this.renderTableRequests(tableRequests, gamePlayers,
-            this.renderGamePlayers, this.renderNumberOfTables)}
-          <Button variant="outline-secondary" onClick={this.handleAddAnotherRequest}>
+          {this.renderTableRequests(this.props.seating.tableRequests,
+            this.props.gamePlayers,
+            this.renderGamePlayers,
+            this.renderNumberOfTables,
+            this.props.handlePlayerRequesting,
+            this.props.handleTableRequesting)}
+          <Button variant="outline-secondary" onClick={this.props.handleAddAnotherRequest}>
             Seat Another
           </Button>
         </div>
@@ -72,7 +88,7 @@ class SeatingPlayerAtTable extends React.Component {
     } else {
       return (
         <Button variant="outline-secondary" onClick={() => {
-          store.dispatch({type: ENABLE_SEATING_AT_TABLE})
+          this.handleEnablingSeatingRequests();
         }}>
           Seat a Player at a Table
         </Button>

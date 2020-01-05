@@ -11,10 +11,7 @@ export const EDIT_GAME_PLAYER = 'EDIT_GAME_PLAYER'
 export const UPDATE_GAME_PLAYER = 'UPDATE_GAME_PLAYER'
 export const DELETE_GAME_PLAYER = 'DELETE_GAME_PLAYER'
 
-export const ENABLE_SEATING_AT_TABLE = 'ENABLE_SEATING_AT_TABLE'
-export const CHANGE_NUM_TABLES = 'CHANGE_NUM_TABLES'
-export const ADD_TABLE_REQUEST = 'ADD_TABLE_REQUEST'
-export const SUBMIT_TABLE_REQUESTS = 'SUBMIT_TABLE_REQUESTS'
+export const SUBMIT_SEATING = 'SUBMIT_SEATING'
 
 /*
  * other constants
@@ -49,15 +46,6 @@ export function deleteGamePlayer(id) {
   return { type: DELETE_GAME_PLAYER, id }
 }
 
-export function enableSeatingAtTable() {
-  return { type: ENABLE_SEATING_AT_TABLE }
-}
-export function changeNumTables(num) {
-  return { type: CHANGE_NUM_TABLES, num }
-}
-export function addTableRequest() {
-  return { type: ADD_TABLE_REQUEST}
-}
-export function submitTableRequests(seatingConfig) {
-  return { type: SUBMIT_TABLE_REQUESTS, seatingConfig}
+export function submitSeating(seatingConfig) {
+  return { type: SUBMIT_SEATING, seatingConfig}
 }
