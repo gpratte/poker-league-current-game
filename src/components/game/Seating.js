@@ -45,7 +45,8 @@ class Seating extends React.Component {
                 onClick={() => store.dispatch({type: TOGGLE_CONFIGURE_SEATING, show: true})}>
           Configure Seating
         </Button>
-        <SeatingConfig game={game}/>
+        {/*TODO ask about key to remount the react component*/}
+        <SeatingConfig key={game.showConfigureSeatingKey} game={game}/>
       </div>
     );
   }

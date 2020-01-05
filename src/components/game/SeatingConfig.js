@@ -24,8 +24,7 @@ class SeatingConfig extends React.Component {
       gamePlayers: props.game.gamePlayers,
       seating: Object.assign({}, props.game.seating,
         {numSeatsPerTable: [...props.game.seating.numSeatsPerTable]},
-        {tableRequests: [...props.game.seating.tableRequests]},
-        {tables: [...props.game.seating.tables]})
+        {tableRequests: [...props.game.seating.tableRequests]})
     };
     this.handleChangeSeatsPerTables = this.handleChangeSeatsPerTables.bind(this);
     this.handleAddAnotherRequest = this.handleAddAnotherRequest.bind(this);

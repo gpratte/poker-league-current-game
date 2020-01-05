@@ -38,7 +38,8 @@ function reducer(game, action) {
       return Object.assign({}, game, {showAddNewPlayer: action.show});
     case TOGGLE_CONFIGURE_SEATING:
       return Object.assign({}, game,
-        {showConfigureSeating: action.show});
+        {showConfigureSeating: action.show},
+        {showConfigureSeatingKey: new Date().getTime()});
     case ADD_EXISTING_PLAYER_TO_GAME:
       // Make sure its a primitive
       playerId = parseInt('' + action.player.id);
